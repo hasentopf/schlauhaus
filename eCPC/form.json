@@ -28,9 +28,10 @@
       "caption": "On"
     },
     {
-      "name": "TotalHomeConsumption",
       "type": "SelectVariable",
-      "caption": "Total home consumption"
+      "name": "TotalHomeConsumptionID",
+      "caption": "Total home consumption",
+      "width": "450px"
     }
   ],
   "actions":
