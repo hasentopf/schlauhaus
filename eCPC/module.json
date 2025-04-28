@@ -1,0 +1,12 @@
+{
+  "id": "{6596EF54-F503-7C4C-5446-85FFA35BEA69}",
+  "name": "eCPC",
+  "url": "https://wilkware.de/ip-symcon-module/zeitschaltuhr/",
+  "type": 3,
+  "vendor": "",
+  "aliases": [],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "LTM"
+}
