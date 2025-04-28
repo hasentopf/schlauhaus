@@ -17,6 +17,12 @@ class eCPC extends IPSModule
 
     }
 
+    // Überschreibt die intere IPS_ApplyChanges($id) Funktion
+    public function ApplyChanges() {
+        // Diese Zeile nicht löschen
+        parent::ApplyChanges();
+    }
+
     /**
      * This function is called when deleting the instance during operation and when updating via "Module Control".
      * The function is not called when exiting IP-Symcon.

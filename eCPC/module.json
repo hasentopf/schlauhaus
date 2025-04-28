@@ -1,12 +1,12 @@
 {
   "id": "{CB8178EF-E73E-6C04-D99D-5C363FD35E36}",
-  "name": "energy consumption price cost",
+  "name": "eCPC",
   "url": "https://github.com/hasentopf/schlauhaus/",
   "vendor": "",
-  "aliases": ["eCPC"],
+  "aliases": ["ecpc", "energy consumption price cost"],
   "parentRequirements": [],
   "childRequirements": [],
   "implemented": [],
   "type": 3,
-  "prefix": "SH"
+  "prefix": "ECPC"
 }
