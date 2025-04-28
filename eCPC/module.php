@@ -12,7 +12,8 @@ class eCPC extends IPSModule
         //Never delete this line!
         parent::Create();
 
-        $this->RegisterPropertyBoolean('Active', false);
+        $this->RegisterPropertyBoolean('InstanceActive', false);
+        $this->RegisterPropertyInteger('TotalHomeConsumption');
 
     }
 

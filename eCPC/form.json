@@ -12,7 +12,7 @@
         },
         {
           "type": "Label",
-          "label": "\nTest Switch\n ",
+          "label": "Test Label",
           "link": false,
           "bold": true
         }
@@ -20,31 +20,17 @@
     },
     {
       "type": "Label",
-      "label": "This module enables you to get data.\n "
+      "label": "This module enables you to get data."
     },
     {
-      "type": "ExpansionPanel",
-      "caption": "Circuit ...",
-      "items": [
-        {
-          "type": "Label",
-          "caption": "... can be globally activated or deactivated via the following switch:"
-        },
-        {
-          "type": "RowLayout",
-          "items": [
-            {
-              "type": "Label",
-              "label": "Off"
-            },
-            {
-              "type": "CheckBox",
-              "name": "InstanceActive",
-              "caption": "On"
-            }
-          ]
-        }
-      ]
+      "name": "InstanceActive",
+      "type": "CheckBox",
+      "caption": "On"
+    },
+    {
+      "name": "TotalHomeConsumption",
+      "type": "SelectVariable",
+      "caption": "Total home consumption"
     }
   ],
   "actions":

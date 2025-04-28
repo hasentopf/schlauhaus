@@ -4,7 +4,8 @@
       "eCPC": "energy consumption price cost",
       "Creating instance.": "Die Instanz wird erstellt.",
       "Instance active.": "Instanz ist aktiv.",
-      "Instance inactive.": "Instanz ist inaktiv."
+      "Instance inactive.": "Instanz ist inaktiv.",
+      "Total home consumption": "Hausverbrauch"
     }
   }
 }
