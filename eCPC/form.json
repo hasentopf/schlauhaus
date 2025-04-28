@@ -28,7 +28,7 @@
       "caption": "On"
     },
     {
-      "type": "SelectVariable",
+      "type": "SelectInstance",
       "name": "TotalHomeConsumptionID",
       "caption": "Total home consumption",
       "width": "450px"
