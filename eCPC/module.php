@@ -13,7 +13,10 @@ class eCPC extends IPSModule
         parent::Create();
 
         $this->RegisterPropertyBoolean('InstanceActive', false);
-        $this->RegisterPropertyInteger('TotalHomeConsumptionID', 0);
+        $this->RegisterPropertyFloat('TotalHomeConsumptionID', 0);
+        $this->RegisterPropertyFloat('TotalHomeConsumptionGridID', 0);
+        $this->RegisterPropertyFloat('TotalDCPVEnergyID', 0);
+        $this->RegisterPropertyFloat('TotalHomeConsumptionPVID', 0);
 
     }
 

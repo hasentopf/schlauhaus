@@ -30,8 +30,22 @@
     {
       "type": "SelectInstance",
       "name": "TotalHomeConsumptionID",
-      "caption": "Total home consumption",
-      "width": "450px"
+      "caption": "Total home consumption"
+    },
+    {
+      "type": "SelectInstance",
+      "name": "TotalHomeConsumptionGridID",
+      "caption": "Total home consumption grid"
+    },
+    {
+      "type": "SelectInstance",
+      "name": "TotalDCPVEnergyID",
+      "caption": "Total DC PV energy"
+    },
+    {
+      "type": "SelectInstance",
+      "name": "TotalHomeConsumptionPVID",
+      "caption": "Total home consumption PV"
     }
   ],
   "actions":
@@ -42,17 +56,17 @@
     {
       "code": 101,
       "icon": "inactive",
-      "caption": "Creating instance."
+      "caption": "Creating instance"
     },
     {
       "code": 102,
       "icon": "active",
-      "caption": "Instance active."
+      "caption": "Instance active"
     },
     {
       "code": 104,
       "icon": "inactive",
-      "caption": "Instance inactive."
+      "caption": "Instance inactive"
     }
   ]
 }
