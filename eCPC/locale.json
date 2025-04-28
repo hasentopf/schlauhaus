@@ -1,7 +1,7 @@
 {
   "translations": {
     "de": {
-      "eCPC": "energy consumption price c?",
+      "eCPC": "energy consumption price cost",
       "Creating instance.": "Die Instanz wird erstellt.",
       "Instance active.": "Instanz ist aktiv.",
       "Instance inactive.": "Instanz ist inaktiv."
