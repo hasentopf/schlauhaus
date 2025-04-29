@@ -14,7 +14,7 @@
       "Total home consumption Battery": "Batterienutzung",
       "Total DC charge energy": "Batterie-Einspeisung aus PV",
       "Total AC charge energy": "Batterie-Einspeisung aus Netz",
-      "Total AC discharge energy": "Batterientladung ins Netz",
+      "Total AC discharge energy": "Batterientladung ins Netz"
     }
   }
 }
