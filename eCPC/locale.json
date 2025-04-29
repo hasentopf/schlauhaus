@@ -2,13 +2,19 @@
   "translations": {
     "de": {
       "eCPC": "energy consumption price cost",
+      "Intro Label": "Energieverbrauch Preis Kosten",
       "Creating instance": "Die Instanz wird erstellt.",
       "Instance active": "Instanz ist aktiv.",
       "Instance inactive": "Instanz ist inaktiv.",
       "Total home consumption": "Hausverbrauch",
       "Total home consumption grid": "Netzbezug",
       "Total DC PV energy": "PV-Produktion",
-      "Total home consumption PV": "PV-Nutzung"
+      "Total home consumption PV": "PV-Nutzung",
+      "Total energy AC-side to grid": "PV-Einspeisung",
+      "Total home consumption Battery": "Batterienutzung",
+      "Total DC charge energy": "Batterie-Einspeisung aus PV",
+      "Total AC charge energy": "Batterie-Einspeisung aus Netz",
+      "Total AC discharge energy": "Batterientladung ins Netz",
     }
   }
 }

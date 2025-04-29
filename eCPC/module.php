@@ -17,6 +17,11 @@ class eCPC extends IPSModule
         $this->RegisterPropertyFloat('TotalHomeConsumptionGridID', 0);
         $this->RegisterPropertyFloat('TotalDCPVEnergyID', 0);
         $this->RegisterPropertyFloat('TotalHomeConsumptionPVID', 0);
+        $this->RegisterPropertyFloat('TotalEnergyACSideToGridID', 0);
+        $this->RegisterPropertyFloat('TotalHomeConsumptionBatteryID', 0);
+        $this->RegisterPropertyFloat('TotalDCchargeEnergyID', 0);
+        $this->RegisterPropertyFloat('TotalACchargeEnergyID', 0);
+        $this->RegisterPropertyFloat('TotalACdischargeEnergyID', 0);
 
     }
 

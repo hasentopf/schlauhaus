@@ -12,7 +12,7 @@
         },
         {
           "type": "Label",
-          "label": "Test Label",
+          "label": "Intro Label",
           "link": false,
           "bold": true
         }
@@ -28,24 +28,49 @@
       "caption": "On"
     },
     {
-      "type": "SelectInstance",
+      "type": "SelectVariable",
       "name": "TotalHomeConsumptionID",
       "caption": "Total home consumption"
     },
     {
-      "type": "SelectInstance",
+      "type": "SelectVariable",
       "name": "TotalHomeConsumptionGridID",
       "caption": "Total home consumption grid"
     },
     {
-      "type": "SelectInstance",
+      "type": "SelectVariable",
       "name": "TotalDCPVEnergyID",
       "caption": "Total DC PV energy"
     },
     {
-      "type": "SelectInstance",
+      "type": "SelectVariable",
       "name": "TotalHomeConsumptionPVID",
       "caption": "Total home consumption PV"
+    },
+    {
+      "type": "SelectVariable",
+      "name": "TotalEnergyACSideToGridID",
+      "caption": "Total energy AC-side to grid"
+    },
+    {
+      "type": "SelectVariable",
+      "name": "TotalHomeConsumptionBatteryID",
+      "caption": "Total home consumption Battery"
+    },
+    {
+      "type": "SelectVariable",
+      "name": "TotalDCchargeEnergyID",
+      "caption": "Total DC charge energy"
+    },
+    {
+      "type": "SelectVariable",
+      "name": "TotalACchargeEnergyID",
+      "caption": "Total AC charge energy"
+    },
+    {
+      "type": "SelectVariable",
+      "name": "TotalACdischargeEnergyID",
+      "caption": "Total AC discharge energy"
     }
   ],
   "actions":
