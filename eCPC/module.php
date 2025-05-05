@@ -1,6 +1,9 @@
 <?php
 
 declare(strict_types=1);
+
+require_once __DIR__ . '/../libs/_traits.php';
+
 class eCPC extends IPSModule
 {
     /**
@@ -11,6 +14,18 @@ class eCPC extends IPSModule
     {
         //Never delete this line!
         parent::Create();
+
+        if (!IPS_VariableProfileExists('eCPC.AggregationLevel')) {
+            IPS_CreateVariableProfile('eCPC.AggregationLevel', 1);
+            IPS_SetVariableProfileValues('eCPC.AggregationLevel', 2, 4, 1);
+            IPS_SetVariableProfileIcon('eCPC.AggregationLevel', 'box-archive');
+
+            IPS_SetVariableProfileAssociation('eCPC.AggregationLevel', 2, 'weekly', '', -1);
+            IPS_SetVariableProfileAssociation('eCPC.AggregationLevel', 3, 'monthly', '', -1);
+            IPS_SetVariableProfileAssociation('eCPC.AggregationLevel', 4, 'yearly', '', -1);
+        }
+
+        $this->RegisterVariableInteger('AggregationLevel', 'Level', 'eCPC.AggregationLevel');
 
         $this->RegisterPropertyBoolean('InstanceActive', false);
         $this->RegisterPropertyFloat('TotalHomeConsumptionID', 0);
@@ -23,12 +38,24 @@ class eCPC extends IPSModule
         $this->RegisterPropertyFloat('TotalACchargeEnergyID', 0);
         $this->RegisterPropertyFloat('TotalACdischargeEnergyID', 0);
 
+        $this->EnableAction('AggregationLevel');
+
+        $this->SetVisualizationType(1);
     }
 
-    // Überschreibt die intere IPS_ApplyChanges($id) Funktion
+    /**
+     * Overrides the internal IPSApplyChanges($id) function
+     * @return void
+     */
     public function ApplyChanges() {
         // Diese Zeile nicht löschen
         parent::ApplyChanges();
+    }
+
+
+    public function RequestAction($Ident, $Value) {
+        $this->SetValue($Ident, $Value);
+        $this->UpdateVisualizationValue($this->GetUpdatedValue($Ident));
     }
 
     /**
