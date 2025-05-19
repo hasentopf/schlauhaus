@@ -25,56 +25,66 @@
     {
       "name": "InstanceActive",
       "type": "CheckBox",
-      "caption": "On"
+      "caption": "Activate Instance"
     },
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionID",
-      "caption": "Total home consumption"
+      "caption": "TotalHomeConsumptionID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionGridID",
-      "caption": "Total home consumption grid"
+      "caption": "TotalHomeConsumptionGridID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalDCPVEnergyID",
-      "caption": "Total DC PV energy"
+      "caption": "TotalDCPVEnergyID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionPVID",
-      "caption": "Total home consumption PV"
+      "caption": "TotalHomeConsumptionPVID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalEnergyACSideToGridID",
-      "caption": "Total energy AC-side to grid"
+      "caption": "TotalEnergyACSideToGridID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionBatteryID",
-      "caption": "Total home consumption Battery"
+      "caption": "TotalHomeConsumptionBatteryID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalDCchargeEnergyID",
-      "caption": "Total DC charge energy"
+      "caption": "TotalDCchargeEnergyID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalACchargeEnergyID",
-      "caption": "Total AC charge energy"
+      "caption": "TotalACchargeEnergyID"
     },
     {
       "type": "SelectVariable",
       "name": "TotalACdischargeEnergyID",
-      "caption": "Total AC discharge energy"
+      "caption": "TotalACdischargeEnergyID"
+    },
+    {
+      "type": "SelectColor",
+      "name": "Color",
+      "caption": "Background Color",
+      "allowTransparent": false
     }
   ],
-  "actions":
-  [
+  "actions": [
+    {
+      "type": "Button",
+      "caption": "Reload form",
+      "onClick": "ECPC_Reload($id);"
+    }
   ],
   "status":
   [
@@ -92,6 +102,11 @@
       "code": 104,
       "icon": "inactive",
       "caption": "Instance inactive"
+    },
+    {
+      "code": 201,
+      "icon": "inactive",
+      "caption": "No archive values set"
     }
   ]
 }

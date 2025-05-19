@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+<style>
+    body {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .hidden {
+        display: none;
+    }
+    #container {
+        height: 100%;
+        max-height: 100%;
+    }
+</style>
+<script type="text/javascript" charset="UTF-8">
+    function handleMessage(data) {
+        const decodedData = JSON.parse(data);
+
+        for (const parameter in decodedData) {
+            const element = document.getElementById(parameter);
+            // let root = document.documentElement;
+
+            switch (parameter) {
+                case 'ArchiveID':
+                    element.innerHTML = 'Archiv-ID: ' + decodedData[parameter];
+                    break;
+                case 'ArchiveStart':
+                    element.value = decodedData[parameter];
+                    break;
+                case 'ArchiveEnd':
+                    element.value = decodedData[parameter];
+                    break;
+                case 'AggregationLevel':
+                    element.value = decodedData[parameter];
+                    break;
+                case 'ArchiveVarSelect':
+                    decodedData[parameter].forEach(function (item) {
+                        if(item != null) {
+                            element.add(new Option(item.Name, translate(item.Value)));
+                        }
+                    })
+                    break;
+                case 'AggregationLevelSelect':
+                    decodedData[parameter].forEach(function (item) {
+                        element.add(new Option(item.Name, item.Value, false, item.Selected));
+                    })
+                    break;
+                case 'Chart':
+                    element.innerHTML = decodedData[parameter];
+                    break;
+                default:
+                    console.log('Unknown parameter: ', parameter);
+            }
+        }
+
+    }
+</script>
+</head>
+<body>
+<div id="container">
+    <div id="ArchiveID"></div>
+    <form>
+        <fieldset>
+            <input type="text" id="AggregationLevel" value="">
+            <label for="AggregationLevelSelect">Stufe</label>
+            <select id="AggregationLevelSelect"></select>
+            <label for="ArchiveVarSelect">Archiv Variable</label>
+            <select id="ArchiveVarSelect" onchange="requestAction('ArchiveVarSelect', this.value);"></select>
+            <label for="ArchiveStart">Start</label>
+            <input type="date" id="ArchiveStart">
+            <label for="ArchiveEnd">Ende</label>
+            <input type="date" id="ArchiveEnd">
+        </fieldset>
+    </form>
+    <div id="Chart"></div>
+</div>
+
+</body>
+</html>

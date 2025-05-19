@@ -3,22 +3,24 @@
     "de": {
       "eCPC": "energy consumption price cost",
       "Intro Label": "Energieverbrauch Preis Kosten",
+      "No archive values set": "Bisher keine CPC Archivwerte festgelegt.",
+      "This module enables you to get data.": "Mit diesem Modul können Sie Daten abrufen und darstellen.",
       "Creating instance": "Die Instanz wird erstellt.",
+      "Activate Instance": "Instanz aktivieren",
       "Instance active": "Instanz ist aktiv.",
       "Instance inactive": "Instanz ist inaktiv.",
-      "Total home consumption": "Hausverbrauch",
-      "Total home consumption grid": "Netzbezug",
-      "Total DC PV energy": "PV-Produktion",
-      "Total home consumption PV": "PV-Nutzung",
-      "Total energy AC-side to grid": "PV-Einspeisung",
-      "Total home consumption Battery": "Batterienutzung",
-      "Total DC charge energy": "Batterie-Einspeisung aus PV",
-      "Total AC charge energy": "Batterie-Einspeisung aus Netz",
-      "Total AC discharge energy": "Batterientladung ins Netz",
-      "Level": "Stufe",
-      "weekly": "Wöchentlich",
-      "monthly": "Monatlich",
-      "yearly": "Jährlich"
+      "TotalHomeConsumptionID": "Hausverbrauch (Total home consumption)",
+      "TotalHomeConsumptionGridID": "Netzbezug (Total home consumption grid)",
+      "TotalDCPVEnergyID": "PV-Produktion (Total DC PV energy)",
+      "TotalHomeConsumptionPVID": "PV-Nutzung (Total home consumption PV)",
+      "TotalEnergyACSideToGridID": "PV-Einspeisung (Total energy AC-side to grid)",
+      "TotalHomeConsumptionBatteryID": "Batterienutzung (Total home consumption Battery)",
+      "TotalDCchargeEnergyID": "Batterie-Einspeisung aus PV (Total DC charge energy)",
+      "TotalACchargeEnergyID": "Batterie-Einspeisung aus Netz (Total AC charge energy)",
+      "TotalACdischargeEnergyID": "Batterientladung ins Netz (Total AC discharge energy)",
+      "weekly": "wöchentlich",
+      "monthly": "monatlich",
+      "yearly": "jährlich"
     }
   }
 }
