@@ -40,7 +40,7 @@
                 case 'AggregationLevel':
                     element.value = decodedData[parameter];
                     break;
-                case 'ArchiveVarSelect':
+                case 'ArchiveVarOptions':
                     decodedData[parameter].forEach(function (item) {
                         if(item != null) {
                             element.add(new Option(item.Name, translate(item.Value)));
@@ -70,13 +70,13 @@
         <fieldset>
             <input type="text" id="AggregationLevel" value="">
             <label for="AggregationLevelSelect">Stufe</label>
-            <select id="AggregationLevelSelect"></select>
-            <label for="ArchiveVarSelect">Archiv Variable</label>
-            <select id="ArchiveVarSelect" onchange="requestAction('ArchiveVarSelect', this.value);"></select>
+            <select id="AggregationLevelSelect" onchange="requestAction('AggregationLevel', this.value);"></select>
+            <label for="ArchiveVarOptions">Archiv Variable</label>
+            <select id="ArchiveVarOptions" onchange="requestAction('ArchiveVarSelect', this.value);"></select>
             <label for="ArchiveStart">Start</label>
-            <input type="date" id="ArchiveStart">
+            <input type="date" id="ArchiveStart" onchange="requestAction('ArchiveStart', this.value);">
             <label for="ArchiveEnd">Ende</label>
-            <input type="date" id="ArchiveEnd">
+            <input type="date" id="ArchiveEnd" onchange="requestAction('ArchiveEnd', this.value);">
         </fieldset>
     </form>
     <div id="Chart"></div>

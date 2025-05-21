@@ -83,7 +83,7 @@ class eCPC extends IPSModule
     public function GetVisualizationTile() {
         $initialHandling = '<script>handleMessage(' . json_encode($this->GetFullUpdateMessage()) . ')</script>';
 
-        // Add static HTML content from file to make editing easier
+        // Add static HTML content from a file to make editing easier
         $module = file_get_contents(__DIR__ . '/module.html');
 
         // Return everything to render our fancy tile!
@@ -119,7 +119,7 @@ class eCPC extends IPSModule
                 $generateChart = true;
             }
         }
-        $result['ArchiveVarSelect'] = $initializedArchiveValues;
+        $result['ArchiveVarOptions'] = $initializedArchiveValues;
         
         $result['ArchiveStart'] = date('Y-m-d', $this->ReadPropertyInteger('ArchiveStart'));
         $result['ArchiveEnd'] = date('Y-m-d', $this->ReadPropertyInteger('ArchiveEnd'));
@@ -139,8 +139,16 @@ class eCPC extends IPSModule
             case 'ArchiveVarSelect':
                 $this->WriteAttributeInteger('ArchiveVarSelect', $Value);
                 break;
-                // TODO Add more actions here
+//            case 'ArchiveStart':
+//                $this->WritePropertyInteger('ArchiveStart', $Value);
+//                break;
+//            case 'ArchiveEnd':
+//                $this->WritePropertyInteger('ArchiveEnd', $Value);
+//                break;
         }
+        $this->UpdateVisualizationValue(json_encode([
+            'Chart' => date('d.m.Y', $this->ReadPropertyInteger('ArchiveStart')) //$Value //GetValueFormatted($Value)
+        ]));
     }
 
     private function generateChart() {

@@ -1,0 +1,12 @@
+{
+  "id": "{7234BAFF-BDF6-C98B-7564-EA935767F0C2}",
+  "name": "PV Watt",
+  "url": "https://github.com/hasentopf/schlauhaus/",
+  "vendor": "",
+  "aliases": ["PVW", "PV Watt"],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "type": 3,
+  "prefix": "PVW"
+}

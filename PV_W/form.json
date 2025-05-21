@@ -1,0 +1,19 @@
+{
+  "elements":
+  [
+    {
+      "type": "SelectVariable",
+      "name": "TotalDCPVPower",
+      "caption": "Total DC PV Power"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "MaxPVPower",
+      "caption": "Max PV Power"
+    }
+  ],
+  "actions": [
+  ],
+  "status": [
+  ]
+}
