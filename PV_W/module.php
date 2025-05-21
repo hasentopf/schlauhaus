@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/QuickChartHelper.php';
 
-class PV_W extends IPSModule
+class PVWattSVG extends IPSModule
 {
     
         public function Create() {
