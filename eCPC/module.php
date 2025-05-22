@@ -128,7 +128,7 @@ class eCPC extends IPSModule
             $result['Chart'] = $this->generateChart();
         }
 
-        return json_encode($result) ;
+        return json_encode($result);
     }
 
     public function RequestAction($Ident, $Value) {

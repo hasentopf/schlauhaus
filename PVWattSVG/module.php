@@ -1,54 +1,62 @@
 <?php
 
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/QuickChartHelper.php';
 
 class PVWattSVG extends IPSModule
 {
-    
-        public function Create() {
-            //Never delete this line!
-            parent::Create();
+    public function Create() {
+        //Never delete this line!
+        parent::Create();
 
-//            $this->RegisterVariableString('PV_W', 'PV Power');
-//            $this->EnableAction('PV_W');
-            $this->RegisterPropertyInteger('MaxPVPower', 600);
+        $this->RegisterPropertyFloat('TotalDCPVPower',0);
+        $this->RegisterPropertyInteger('MaxPVPower', 600);
+        $this->RegisterAttributeString('CurrentPVPowerSVG', 'Keine Daten');
 
-            $this->SetVisualizationType(1);
-        }
+        $this->RegisterTimer('UpdateSvg', 0, 'PVW_UpdateSvgTimer($_IPS[\'TARGET\']);');
 
-//    public function ApplyChanges() {
-//        //Never delete this line!
-//        parent::ApplyChanges();
-//
-//        //Lets register a variable with action
-//        $this->RegisterVariableString('PV_W', 'PV Power');
-//        $this->EnableAction("PV_W");
-//
-//        $this->RegisterPropertyInteger('MaxPVPower', 600);
-//
-//    }
+        $this->SetVisualizationType(1);
+
+//        $this->RegisterPropertyBoolean('AutoDebug', false);
+    }
 
     public function PrintSvg() {
+        if($this->ReadPropertyFloat('TotalDCPVPower') > 0) {
+            // $PV_value_id = $this->GetIDForIdent('TotalDCPVPower');
+            $current_pv = round(GetValueFloat($this->ReadPropertyFloat('TotalDCPVPower')) * 1000);
+            $max_pv = $this->ReadPropertyInteger('MaxPVPower');
+            $current_perc = ($current_pv / $max_pv) * 100;
 
-        $PV_value_id = $this->GetIDForIdent('TotalDCPVPower');
-        $current_pv = round(GetValueFloat($PV_value_id) * 1000);
-        $max_pv = $this->ReadPropertyInteger('MaxPVPower');
-        $current_perc = ($current_pv / $max_pv) * 100;
+            $chart = $this->DrawChart($current_perc, $current_pv);
 
-        // SVG Chart
-        return $this->DrawChart($current_perc, $current_pv);
+//            $this->SendDebug('Debug', 'Debug $current_pv: '. $current_pv, 0);
+
+            $this->SetTimerInterval('UpdateSvg', 60000);
+
+            $this->WriteAttributeString('CurrentPVPowerSVG', $chart);
+
+            return $chart;
+        } else {
+            return 'Keine Daten für "Total DC PV Power"';
+        }
     }
 
-    public function RequestAction($Ident, $Value) {
+    public function UpdateSvgTimer() {
+        if($this->ReadPropertyFloat('TotalDCPVPower') > 0) {
+            $this->SetTimerInterval('UpdateSvg', 20000);
+            $this->UpdateVisualizationValue(json_encode($this->PrintSvg()));
+        } else {
+            $this->SetTimerInterval('UpdateSvg', 0);
+        }
 
     }
-
+    
     public function GetVisualizationTile() {
-        return  '<script>function handleMessage(data) { document.getElementById("display").innerText = data; }</script>'.
-            '<div id="display">' . $this->PrintSvg() . '</div>';
+        $initialHandling = '<script>handleMessage(' . json_encode($this->PrintSvg()) . ')</script>';
+//        $this->SendDebug('Debug', 'GetVisualizationTile this Debug', 0);
+        $module = file_get_contents(__DIR__ . '/module.html');
+        return $module . $initialHandling;
     }
 
     private function DrawChart($value, $current) {
