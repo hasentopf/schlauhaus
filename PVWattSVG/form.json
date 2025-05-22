@@ -4,12 +4,12 @@
     {
       "type": "SelectVariable",
       "name": "TotalDCPVPower",
-      "caption": "Total DC PV Power"
+      "caption": "Total DC PV Power (sum of all PV inputs)"
     },
     {
       "type": "NumberSpinner",
       "name": "MaxPVPower",
-      "caption": "Max PV Power"
+      "caption": "Max PV Power (Nennleistung oder Maximalleistung)"
     }
   ],
   "actions": [

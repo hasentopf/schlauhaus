@@ -14,18 +14,23 @@
     .hidden {
         display: none;
     }
-    #timerCountDown,
-    #currentPVPowerSVG {
+    #timerCountDown {
         position: absolute;
-        top: 0;
-        left: 0;
+        bottom: 0;
+        right: 5px;
     }
     #currentPVPowerSVG {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: 100%;
         max-height: 100%;
         overflow: hidden;
         width: 100%;
         background: lavenderblush;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     #currentPVPowerSVG svg {
         margin: 0 auto;
@@ -35,10 +40,10 @@
 </head>
 <body>
 <div id="currentPVPowerSVG"></div>
-<div id="timerCountDown"></div>
+<small id="timerCountDown"></small>
 <script>
     function handleMessage(data) {
-        document.getElementById('currentPVPowerSVG').innerHTML = JSON.parse(data);
+        document.getElementById('currentPVPowerSVG').innerHTML = data;
     }
 
     function startTimer(duration, display) {

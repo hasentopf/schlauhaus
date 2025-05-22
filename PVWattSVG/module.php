@@ -14,6 +14,7 @@ class PVWattSVG extends IPSModule
         $this->RegisterPropertyInteger('MaxPVPower', 600);
         $this->RegisterAttributeString('CurrentPVPowerSVG', 'Keine Daten');
 
+        // RegisterTimer to update the SVG periodically
         $this->RegisterTimer('UpdateSvg', 0, 'PVW_UpdateSvgTimer($_IPS[\'TARGET\']);');
 
         $this->SetVisualizationType(1);
@@ -30,22 +31,23 @@ class PVWattSVG extends IPSModule
 
             $chart = $this->DrawChart($current_perc, $current_pv);
 
+//            $this->SendDebug('Debug', 'Debug $max_pv: '. $max_pv, 0);
 //            $this->SendDebug('Debug', 'Debug $current_pv: '. $current_pv, 0);
 
-            $this->SetTimerInterval('UpdateSvg', 60000);
+            $this->SetTimerInterval('UpdateSvg', 45000); // 45000 ms is equal to 45 seconds.
 
             $this->WriteAttributeString('CurrentPVPowerSVG', $chart);
 
             return $chart;
         } else {
-            return 'Keine Daten für "Total DC PV Power"';
+            return 'Keine Daten für Total DC PV Power gesetzt.';
         }
     }
 
     public function UpdateSvgTimer() {
         if($this->ReadPropertyFloat('TotalDCPVPower') > 0) {
             $this->SetTimerInterval('UpdateSvg', 20000);
-            $this->UpdateVisualizationValue(json_encode($this->PrintSvg()));
+            $this->UpdateVisualizationValue($this->PrintSvg());
         } else {
             $this->SetTimerInterval('UpdateSvg', 0);
         }

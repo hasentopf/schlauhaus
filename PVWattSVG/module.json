@@ -3,7 +3,7 @@
   "name": "PVWattSVG",
   "url": "https://github.com/hasentopf/schlauhaus/",
   "vendor": "",
-  "aliases": ["PV Watt SVG", "PVWSVG"],
+  "aliases": ["PV Ampel"],
   "parentRequirements": [],
   "childRequirements": [],
   "implemented": [],
