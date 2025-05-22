@@ -3,7 +3,7 @@
   "name": "eCPC",
   "url": "https://github.com/hasentopf/schlauhaus/",
   "vendor": "",
-  "aliases": ["energy consumption price cost", "ecpc"],
+  "aliases": [],
   "parentRequirements": [],
   "childRequirements": [],
   "implemented": [],

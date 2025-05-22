@@ -3,12 +3,15 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/schlauhaus.php';
+require_once __DIR__ . '/../libs/QuickChartHelper.php';
 
 class eCPC extends IPSModule
 {
     use Schlauhaus;
 
     public array $eCPCs = ['TotalHomeConsumptionID', 'TotalHomeConsumptionGridID', 'TotalDCPVEnergyID', 'TotalHomeConsumptionPVID', 'TotalEnergyACSideToGridID', 'TotalHomeConsumptionBatteryID', 'TotalDCchargeEnergyID', 'TotalACchargeEnergyID', 'TotalACdischargeEnergyID'];
+
+    public array $labelFormat = [2 => 'W', 3 => 'M', 4 => 'Y'];
 
     /**
      * In contrast to Construct, this function is called only once when creating the instance and starting IP-Symcon.
@@ -37,24 +40,19 @@ class eCPC extends IPSModule
 
         $this->EnableAction('AggregationLevel');
 
-        $this->RegisterPropertyInteger('ArchiveStart', strtotime('-1 months'));
-        $this->RegisterPropertyInteger('ArchiveEnd', time());
+        $this->RegisterAttributeInteger('ArchiveStart', strtotime('-1 months'));
+        $this->RegisterAttributeInteger('ArchiveEnd', time());
+
         $this->RegisterAttributeInteger('ArchiveVarSelect', 0);
 
-        // Eine Eigenschaft für die Hintergrundfarbe
         $this->RegisterPropertyInteger('Color', 0xff0000);
 
-        // Visualisierungstyp auf 1 setzen, da wir HTML anbieten möchten
         $this->SetVisualizationType(1);
+
+        
+        $this->RegisterPropertyBoolean('AutoDebug', false);
     }
 
-    /**
-     * @return void
-     */
-    public function Destroy() {
-        //Never delete this line!
-        parent::Destroy();
-    }
 
     /**
      * Overrides the internal IPSApplyChanges($id) function
@@ -120,15 +118,40 @@ class eCPC extends IPSModule
             }
         }
         $result['ArchiveVarOptions'] = $initializedArchiveValues;
-        
-        $result['ArchiveStart'] = date('Y-m-d', $this->ReadPropertyInteger('ArchiveStart'));
-        $result['ArchiveEnd'] = date('Y-m-d', $this->ReadPropertyInteger('ArchiveEnd'));
+
+        $result['ArchiveVarSelect'] = $this->ReadAttributeInteger('ArchiveVarSelect');
+
+        $result['ArchiveStart'] = date('Y-m-d', $this->ReadAttributeInteger('ArchiveStart'));
+        $result['ArchiveEnd'] = date('Y-m-d', $this->ReadAttributeInteger('ArchiveEnd'));
+
 
         if($generateChart) {
-            $result['Chart'] = $this->generateChart();
+            $result['Chart'] = $this->generateChart($result);
         }
 
         return json_encode($result);
+    }
+
+    private function generateChart() {
+        $archiveID = $this->GetArchivID();
+        $aggregationLevel = $this->GetValue('AggregationLevel');
+        $temp = AC_GetAggregatedValues($archiveID, $this->ReadAttributeInteger('ArchiveVarSelect'), $aggregationLevel, $this->ReadAttributeInteger('ArchiveStart'), $this->ReadAttributeInteger('ArchiveEnd'), 0);
+        $label_format = $this->labelFormatHelper($aggregationLevel);
+        $labels = [];
+        for ($count=0; $count < count($temp); $count++) {
+            $verbrauch = (string) round($temp[$count]['Avg'], 2); // Durchschnittswert
+            $zahl_neu = str_replace(".",",", $verbrauch); // Punkt durch Komma ersetzen
+            $values[] = $verbrauch;
+            $dat = date($label_format, $temp[$count]['TimeStamp']);
+            $labels[] = $dat;
+            $liste[$count] = $dat.": " . $zahl_neu;
+        }
+
+        return $this->drawQuickChart($labels, $values, 'TODO', IPS_GetName($archiveID));
+    }
+
+    private function labelFormatHelper($aggregationLevel) {
+        return array_key_exists($aggregationLevel, $this->labelFormat) ? $this->labelFormat[$aggregationLevel] : "d.m.Y";
     }
 
     public function RequestAction($Ident, $Value) {
@@ -139,38 +162,54 @@ class eCPC extends IPSModule
             case 'ArchiveVarSelect':
                 $this->WriteAttributeInteger('ArchiveVarSelect', $Value);
                 break;
-//            case 'ArchiveStart':
-//                $this->WritePropertyInteger('ArchiveStart', $Value);
-//                break;
-//            case 'ArchiveEnd':
-//                $this->WritePropertyInteger('ArchiveEnd', $Value);
-//                break;
+            case 'ArchiveStart':
+                $this->WriteAttributeInteger('ArchiveStart', $Value);
+                break;
+            case 'ArchiveEnd':
+                $this->WriteAttributeInteger('ArchiveEnd', $Value);
+                break;
         }
         $this->UpdateVisualizationValue(json_encode([
-            'Chart' => date('d.m.Y', $this->ReadPropertyInteger('ArchiveStart')) //$Value //GetValueFormatted($Value)
+            'Chart' => $this->generateChart() //$Value //GetValueFormatted($Value)
         ]));
     }
 
-    private function generateChart() {
-        return $this->ReadAttributeInteger('ArchiveVarSelect');
-/*
-        $temp = AC_GetAggregatedValues($this->GetArchivID(), $this->ReadAttributeInteger('ArchiveVarSelect'), $this->ReadPropertyInteger('AggregationLevel'), $this->ReadPropertyInteger('ArchiveStart'), $this->ReadPropertyInteger('ArchiveEnd'), 0); // 1 = day, 2 = Week, 3 = month,4 =year, 0 = Hour
-        $label_format_helper = [2 => 'W', 3 => 'M', 4 => 'Y'];
-        $label_format = array_key_exists($this->ReadPropertyInteger('AggregationLevel'), $label_format_helper) ? $label_format_helper[$this->ReadPropertyInteger('AggregationLevel')] : "d.m.Y";
-
-        $labels = $dates = [];
-        for ($count=0; $count < count($temp); $count++) {
-            $verbrauch = (string) round($temp[$count]['Avg'], 2); // Durchschnittswert
-            $zahl_neu = str_replace(".",",", $verbrauch); // Punkt durch Komma ersetzen
-            // $values[] = $verbrauch;
-            $dat = date($label_format, $temp[$count]['TimeStamp']);
-            // $labels[] = $dat;
-            $liste[$count] = $dat.": " . $zahl_neu;
-//            echo $liste[$count]."<br>\n";
-        }
-        return $liste;
-*/
+    private function drawQuickChart($labels, $values, $label, $headline) {
+        // new chart object
+        $chart = new QuickChart(['width' => 500, 'height' => 500, 'format' => 'svg']);
+        // chart config
+        $chart->setConfig("{
+            type: 'bar',
+            data: {
+                labels: ['".implode("','", $labels)."'],   // Set X-axis labels
+                datasets: [{
+                    label: '$label',
+                    data: [".implode(',', $values)."]
+                }]
+            },
+            options: {        
+                title: {
+                    display: true,
+                    text: '$headline',
+                    position: 'bottom',
+                },
+                plugins: {
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: '#FFF',
+                        formatter: function (value, context) {
+                            return value + ' kWh';
+                        },
+                        font: {
+                            size: 8,
+                            weight: 'normal',
+                        },
+                    },
+                }
+            }
+        }");
+        //print_r($chart->getConfig());
+        return $chart->toBinary();
     }
-    
-    
 }
