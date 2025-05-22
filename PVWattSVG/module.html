@@ -14,38 +14,45 @@
     .hidden {
         display: none;
     }
-    #timerCountDown {
-        position: absolute;
-        bottom: 0;
-        right: 5px;
-    }
-    #currentPVPowerSVG {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    figure {
+        position: relative;
         height: 100%;
         max-height: 100%;
         overflow: hidden;
         width: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background: lavenderblush;
+    }
+    figcaption {
         position: absolute;
-        top: 0;
-        left: 0;
+        bottom: 0;
+        right: 5px;
     }
     #currentPVPowerSVG svg {
-        margin: 0 auto;
-        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
     }
 </style>
 </head>
 <body>
-<div id="currentPVPowerSVG"></div>
-<small id="timerCountDown"></small>
+<figure>
+    <div id="currentPVPowerSVG"></div>
+    <figcaption><small id="timerCountDown"></small></figcaption>
+</figure>
 <script>
     function handleMessage(data) {
         document.getElementById('currentPVPowerSVG').innerHTML = data;
     }
 
+    /**
+     * starts an interval timer
+     * @param duration in seconds
+     * @param display
+     */
     function startTimer(duration, display) {
         let timer = duration, minutes, seconds;
         setInterval(function () {
@@ -61,9 +68,9 @@
     }
 
     window.onload = function () {
-        const oneMinute = 60,
+        const duration = 45,
             display = document.getElementById('timerCountDown');
-        startTimer(oneMinute, display);
+        startTimer(duration, display);
     };
 </script>
 </body>
