@@ -18,6 +18,8 @@
       "TotalDCchargeEnergyID": "Batterie-Einspeisung aus PV (Total DC charge energy)",
       "TotalACchargeEnergyID": "Batterie-Einspeisung aus Netz (Total AC charge energy)",
       "TotalACdischargeEnergyID": "Batterientladung ins Netz (Total AC discharge energy)",
+      "Label Color": "Labelfarbe",
+      "Bar Color": "Balkenfarbe",
       "weekly": "wöchentlich",
       "monthly": "monatlich",
       "yearly": "jährlich"

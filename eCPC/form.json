@@ -30,52 +30,67 @@
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionID",
-      "caption": "TotalHomeConsumptionID"
+      "caption": "TotalHomeConsumptionID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionGridID",
-      "caption": "TotalHomeConsumptionGridID"
+      "caption": "TotalHomeConsumptionGridID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalDCPVEnergyID",
-      "caption": "TotalDCPVEnergyID"
+      "caption": "TotalDCPVEnergyID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionPVID",
-      "caption": "TotalHomeConsumptionPVID"
+      "caption": "TotalHomeConsumptionPVID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalEnergyACSideToGridID",
-      "caption": "TotalEnergyACSideToGridID"
+      "caption": "TotalEnergyACSideToGridID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionBatteryID",
-      "caption": "TotalHomeConsumptionBatteryID"
+      "caption": "TotalHomeConsumptionBatteryID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalDCchargeEnergyID",
-      "caption": "TotalDCchargeEnergyID"
+      "caption": "TotalDCchargeEnergyID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalACchargeEnergyID",
-      "caption": "TotalACchargeEnergyID"
+      "caption": "TotalACchargeEnergyID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
       "name": "TotalACdischargeEnergyID",
-      "caption": "TotalACdischargeEnergyID"
+      "caption": "TotalACdischargeEnergyID",
+      "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectColor",
-      "name": "Color",
-      "caption": "Background Color",
+      "name": "FontColor",
+      "caption": "Label Color",
+      "allowTransparent": false
+    },
+    {
+      "type": "SelectColor",
+      "name": "BarColor",
+      "caption": "Bar Color",
       "allowTransparent": false
     }
   ],

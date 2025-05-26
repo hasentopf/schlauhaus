@@ -35,7 +35,7 @@ class eCPC extends IPSModule
         $this->RegisterPropertyBoolean('InstanceActive', false);
 
         foreach ($this->eCPCs as $eCPC) {
-            $this->RegisterPropertyFloat($eCPC, 0);
+            $this->RegisterPropertyInteger($eCPC, 0);
         }
 
         $this->EnableAction('AggregationLevel');
@@ -45,11 +45,11 @@ class eCPC extends IPSModule
 
         $this->RegisterAttributeInteger('ArchiveVarSelect', 0);
 
-        $this->RegisterPropertyInteger('Color', 0xff0000);
+        $this->RegisterPropertyInteger('FontColor', 0xff0000);
+        $this->RegisterPropertyInteger('BarColor', 0xff0000);
 
         $this->SetVisualizationType(1);
 
-        
         $this->RegisterPropertyBoolean('AutoDebug', false);
     }
 
@@ -63,7 +63,7 @@ class eCPC extends IPSModule
 
         $noValuesSet = true;
         foreach ($this->eCPCs as $eCPC) {
-            if ($this->ReadPropertyFloat($eCPC) > 0) {
+            if ($this->ReadPropertyInteger($eCPC) > 0) {
                 $noValuesSet = false;
             }
         }
@@ -95,9 +95,7 @@ class eCPC extends IPSModule
     private function GetFullUpdateMessage() {
         $result = [];
 
-        $result['ArchiveID'] = $this->GetArchivID();
         $AggregationLevel = $this->GetValue('AggregationLevel');
-        $result['AggregationLevel'] = $AggregationLevel;
 
         $AggregationLevelOptions = IPS_GetVariableProfile('eCPC.AggregationLevel')['Associations'];
         $AggregationLevelOptions = array_map(
@@ -112,21 +110,18 @@ class eCPC extends IPSModule
         $generateChart = false;
         $initializedArchiveValues = [];
         foreach ($this->eCPCs as $eCPC) {
-            if ($this->ReadPropertyFloat($eCPC) > 0) {
-                $initializedArchiveValues[] = ['Name' => $eCPC, 'Value' => $this->ReadPropertyFloat($eCPC)];
+            if ($this->ReadPropertyInteger($eCPC) > 0) {
+                $initializedArchiveValues[] = ['Name' => $eCPC, 'Value' => $this->ReadPropertyInteger($eCPC)];
                 $generateChart = true;
             }
         }
         $result['ArchiveVarOptions'] = $initializedArchiveValues;
 
-        $result['ArchiveVarSelect'] = $this->ReadAttributeInteger('ArchiveVarSelect');
-
         $result['ArchiveStart'] = date('Y-m-d', $this->ReadAttributeInteger('ArchiveStart'));
         $result['ArchiveEnd'] = date('Y-m-d', $this->ReadAttributeInteger('ArchiveEnd'));
 
-
-        if($generateChart) {
-            $result['Chart'] = $this->generateChart($result);
+        if($generateChart && $this->ReadAttributeInteger('ArchiveVarSelect') > 0) {
+            $result['Chart'] = $this->generateChart();
         }
 
         return json_encode($result);
@@ -134,8 +129,20 @@ class eCPC extends IPSModule
 
     private function generateChart() {
         $archiveID = $this->GetArchivID();
+        $archiveVariable = $this->ReadAttributeInteger('ArchiveVarSelect');
         $aggregationLevel = $this->GetValue('AggregationLevel');
-        $temp = AC_GetAggregatedValues($archiveID, $this->ReadAttributeInteger('ArchiveVarSelect'), $aggregationLevel, $this->ReadAttributeInteger('ArchiveStart'), $this->ReadAttributeInteger('ArchiveEnd'), 0);
+
+        $Profile = IPS_GetVariableProfile('Aggregationsstufe');
+        $profile_name = '';
+        foreach($Profile['Associations'] as $association) {
+            if($association['Value'] == $aggregationLevel) {
+                $profile_name = $association['Name'];
+                break;
+            }
+        }
+
+//        $this->SendDebug('Debug', 'Debug $archiveID: '. $archiveID, 0);
+        $temp = AC_GetAggregatedValues($archiveID, $archiveVariable, $aggregationLevel, $this->ReadAttributeInteger('ArchiveStart'), $this->ReadAttributeInteger('ArchiveEnd'), 0);  // 1 = day, 2 = Week, 3 = month,4 =year, 0 = Hour
         $label_format = $this->labelFormatHelper($aggregationLevel);
         $labels = [];
         for ($count=0; $count < count($temp); $count++) {
@@ -147,7 +154,10 @@ class eCPC extends IPSModule
             $liste[$count] = $dat.": " . $zahl_neu;
         }
 
-        return $this->drawQuickChart($labels, $values, 'TODO', IPS_GetName($archiveID));
+        $fontColor = $this->getHexColor($this->ReadPropertyInteger('FontColor'));
+        $barColor = $this->getHexColor($this->ReadPropertyInteger('BarColor'));
+
+        return $this->drawQuickChart($labels, $values, $profile_name, IPS_GetName($archiveID), $fontColor, $barColor);
     }
 
     private function labelFormatHelper($aggregationLevel) {
@@ -174,7 +184,11 @@ class eCPC extends IPSModule
         ]));
     }
 
-    private function drawQuickChart($labels, $values, $label, $headline) {
+    private function getHexColor($colorInt) {
+        return sprintf('#%02x%02x%02x', ($colorInt >> 16) & 0xFF, ($colorInt >> 8) & 0xFF, $colorInt & 0xFF);
+    }
+
+    private function drawQuickChart($labels, $values, $label, $headline, $fontColor = '#FFFFFF', $barColor = '#000000') {
         // new chart object
         $chart = new QuickChart(['width' => 500, 'height' => 500, 'format' => 'svg']);
         // chart config
@@ -184,6 +198,7 @@ class eCPC extends IPSModule
                 labels: ['".implode("','", $labels)."'],   // Set X-axis labels
                 datasets: [{
                     label: '$label',
+                    backgroundColor: '".$barColor."',
                     data: [".implode(',', $values)."]
                 }]
             },
@@ -197,7 +212,7 @@ class eCPC extends IPSModule
                     datalabels: {
                         anchor: 'center',
                         align: 'center',
-                        color: '#FFF',
+                        color: '".$fontColor."',
                         formatter: function (value, context) {
                             return value + ' kWh';
                         },

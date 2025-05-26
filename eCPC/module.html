@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>eCPC</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
@@ -14,9 +14,8 @@
     .hidden {
         display: none;
     }
-    #container {
-        height: 100%;
-        max-height: 100%;
+    #eCPC {
+        margin: 50px 0 0 0;
     }
 </style>
 <script type="text/javascript" charset="UTF-8">
@@ -28,9 +27,6 @@
             // let root = document.documentElement;
 
             switch (parameter) {
-                case 'ArchiveID':
-                    element.innerHTML = 'Archiv-ID: ' + decodedData[parameter];
-                    break;
                 case 'ArchiveStart':
                     element.value = decodedData[parameter];
                     break;
@@ -64,19 +60,23 @@
 </script>
 </head>
 <body>
-<div id="container">
-    <div id="ArchiveID"></div>
+<div id="eCPC">
     <form>
-        <fieldset>
-            <input type="text" id="AggregationLevel" value="">
-            <label for="AggregationLevelSelect">Stufe</label>
-            <select id="AggregationLevelSelect" onchange="requestAction('AggregationLevel', this.value);"></select>
-            <label for="ArchiveVarOptions">Archiv Variable</label>
-            <select id="ArchiveVarOptions" onchange="requestAction('ArchiveVarSelect', this.value);"></select>
-            <label for="ArchiveStart">Start</label>
-            <input type="date" id="ArchiveStart" onchange="requestAction('ArchiveStart', this.value);">
-            <label for="ArchiveEnd">Ende</label>
-            <input type="date" id="ArchiveEnd" onchange="requestAction('ArchiveEnd', this.value);">
+        <fieldset class="container">
+            <div class="row">
+                <div class="column">
+                    <label for="AggregationLevelSelect">Stufe</label>
+                    <select id="AggregationLevelSelect" onchange="requestAction('AggregationLevel', this.value);"></select>
+                    <label for="ArchiveVarOptions">Archiv Variable</label>
+                    <select id="ArchiveVarOptions" onchange="requestAction('ArchiveVarSelect', this.value);"></select>
+                </div>
+                <div class="column">
+                    <label for="ArchiveStart">Start</label>
+                    <input type="date" id="ArchiveStart" onchange="requestAction('ArchiveStart', this.value);">
+                    <label for="ArchiveEnd">Ende</label>
+                    <input type="date" id="ArchiveEnd" onchange="requestAction('ArchiveEnd', this.value);">
+                </div>
+            </div>
         </fieldset>
     </form>
     <div id="Chart"></div>
