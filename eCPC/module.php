@@ -50,7 +50,7 @@ class eCPC extends IPSModule
 
         $this->SetVisualizationType(1);
 
-        $this->RegisterPropertyBoolean('AutoDebug', false);
+//        $this->RegisterPropertyBoolean('AutoDebug', false);
     }
 
 
@@ -141,10 +141,10 @@ class eCPC extends IPSModule
             }
         }
 
-//        $this->SendDebug('Debug', 'Debug $archiveID: '. $archiveID, 0);
+        $this->SendDebug('Debug', 'Debug $archiveVariable: '. $archiveVariable, 0);
         $temp = AC_GetAggregatedValues($archiveID, $archiveVariable, $aggregationLevel, $this->ReadAttributeInteger('ArchiveStart'), $this->ReadAttributeInteger('ArchiveEnd'), 0);  // 1 = day, 2 = Week, 3 = month,4 =year, 0 = Hour
         $label_format = $this->labelFormatHelper($aggregationLevel);
-        $labels = [];
+        $labels = $values = [];
         for ($count=0; $count < count($temp); $count++) {
             $verbrauch = (string) round($temp[$count]['Avg'], 2); // Durchschnittswert
             $zahl_neu = str_replace(".",",", $verbrauch); // Punkt durch Komma ersetzen
@@ -157,7 +157,9 @@ class eCPC extends IPSModule
         $fontColor = $this->getHexColor($this->ReadPropertyInteger('FontColor'));
         $barColor = $this->getHexColor($this->ReadPropertyInteger('BarColor'));
 
-        return $this->drawQuickChart($labels, $values, $profile_name, IPS_GetName($archiveID), $fontColor, $barColor);
+        $headline = IPS_GetName($archiveVariable);
+
+        return $this->drawQuickChart($labels, $values, $profile_name, $headline, $fontColor, $barColor);
     }
 
     private function labelFormatHelper($aggregationLevel) {
@@ -173,14 +175,14 @@ class eCPC extends IPSModule
                 $this->WriteAttributeInteger('ArchiveVarSelect', $Value);
                 break;
             case 'ArchiveStart':
-                $this->WriteAttributeInteger('ArchiveStart', $Value);
+                $this->WriteAttributeInteger('ArchiveStart', strtotime($Value));
                 break;
             case 'ArchiveEnd':
-                $this->WriteAttributeInteger('ArchiveEnd', $Value);
+                $this->WriteAttributeInteger('ArchiveEnd', strtotime($Value));
                 break;
         }
         $this->UpdateVisualizationValue(json_encode([
-            'Chart' => $this->generateChart() //$Value //GetValueFormatted($Value)
+            'Chart' => $this->generateChart()
         ]));
     }
 
@@ -224,7 +226,7 @@ class eCPC extends IPSModule
                 }
             }
         }");
-        //print_r($chart->getConfig());
+        //$this->SendDebug('Debug', 'Debug $chart->getConfig: '. print_r($chart->getConfig()), 0);
         return $chart->toBinary();
     }
 }
