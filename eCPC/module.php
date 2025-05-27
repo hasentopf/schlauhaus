@@ -67,9 +67,16 @@ class eCPC extends IPSModule
                 $noValuesSet = false;
             }
         }
-        if (!$noValuesSet) {
+        if ($noValuesSet) {
             $this->SetStatus(201); // No Archive values set
             return false;
+        }
+
+
+        if ($this->ReadPropertyBoolean("InstanceActive")) {
+            $this->SetStatus(102); // Instanz aktiveren
+        } else {
+            $this->SetStatus(104); // Instanz deaktiveren
         }
 
         $this->Reload();
