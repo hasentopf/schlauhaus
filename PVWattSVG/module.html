@@ -24,17 +24,21 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: lavenderblush;
     }
     figcaption {
         position: absolute;
         bottom: 0;
         right: 5px;
     }
+    #currentPVPowerSVG {
+        width: 100%;
+        padding: 1rem;
+    }
     #currentPVPowerSVG svg {
         width: 100%;
         height: auto;
         object-fit: cover;
+        color: var(--content-color, var(--font-color));
     }
 </style>
 </head>
@@ -44,6 +48,13 @@
     <figcaption><small id="timerCountDown"></small></figcaption>
 </figure>
 <script>
+
+    document.documentElement.style.setProperty('--font-color', queryParameters.get('textcolor'));
+
+    /**
+     * handles the message from the server
+     * @param data
+     */
     function handleMessage(data) {
         document.getElementById('currentPVPowerSVG').innerHTML = data;
     }
