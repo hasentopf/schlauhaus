@@ -68,29 +68,27 @@ class PVWattSVG extends IPSModule
         $chart->setConfig("{
         type: 'gauge',
         data: {
+            labels: ['0-20%', '20-40%', '40-60%', '60-80%', '80-100%'],
             datasets: [
                 {
-                    data: [25, 50, 75, 100],
                     value: $value,
+                    data: [20, 40, 60, 80, 100],
                     minValue: 0,
-                    backgroundColor: ['red', 'orange', '#f8f32b', 'green'],
+                    backgroundColor: ['red', 'orange', 'yellow', 'rgb(110,182,67)', 'rgb(14,147,137)'],
                     borderWidth: 1,
                 },
             ],
         },
         options: {
-            legend: {
-                display: false,
-            },
             title: {
                 display: false,
                 text: 'Aktuelle Leistung',
                 position: 'bottom',
             },
             needle: {
-                radiusPercentage: 0,
-                widthPercentage: 2,
-                lengthPercentage: 40,
+                radiusPercentage: 1,
+                widthPercentage: 1,
+                lengthPercentage: 60,
                 color: '#6a5d4d',
             },
             valueLabel: {
@@ -100,19 +98,18 @@ class PVWattSVG extends IPSModule
                 formatter: function (value, context) {
                     return  '$current W';
                 },
-                bottomMarginPercentage: 10,
+                bottomMarginPercentage: 15,
             },
             plugins: {
                 datalabels: {
                     display: 'auto',
                     formatter: function (value, context) {
-                        return context.chart.data.labels[context.dataIndex/100];
+                      return context.chart.data.labels[context.dataIndex];
                     },
                     color: '#6a5d4d',
                     font: {
-                        weight: 'bold',
                         size: 8,
-                    }
+                    },
                 },
             },
         },
