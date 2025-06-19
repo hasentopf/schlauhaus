@@ -12,7 +12,8 @@ class PVWattSVG extends IPSModule
 
         $this->RegisterPropertyFloat('TotalDCPVPower',0);
         $this->RegisterPropertyInteger('MaxPVPower', 600);
-        $this->RegisterAttributeString('CurrentPVPowerSVG', 'Keine Daten');
+//        $this->RegisterAttributeString('CurrentPVPowerSVG', 'Keine Daten');
+        $this->RegisterPropertyInteger('IntervalTime', 45);
 
         // RegisterTimer to update the SVG periodically
         $this->RegisterTimer('UpdateSvg', 0, 'PVW_UpdateSvgTimer($_IPS[\'TARGET\']);');
@@ -20,6 +21,11 @@ class PVWattSVG extends IPSModule
         $this->SetVisualizationType(1);
 
 //        $this->RegisterPropertyBoolean('AutoDebug', false);
+    }
+
+    public function ApplyChanges(){
+        //Never delete this line!
+        parent::ApplyChanges();
     }
 
     public function PrintSvg() {
@@ -34,9 +40,9 @@ class PVWattSVG extends IPSModule
 //            $this->SendDebug('Debug', 'Debug $max_pv: '. $max_pv, 0);
 //            $this->SendDebug('Debug', 'Debug $current_pv: '. $current_pv, 0);
 
-            $this->SetTimerInterval('UpdateSvg', 45000); // 45000 ms is equal to 45 seconds.
+            $this->SetTimerInterval('UpdateSvg', $this->GetIntervalTime());
 
-            $this->WriteAttributeString('CurrentPVPowerSVG', $chart);
+//            $this->WriteAttributeString('CurrentPVPowerSVG', $chart);
 
             return $chart;
         } else {
@@ -46,12 +52,11 @@ class PVWattSVG extends IPSModule
 
     public function UpdateSvgTimer() {
         if($this->ReadPropertyFloat('TotalDCPVPower') > 0) {
-            $this->SetTimerInterval('UpdateSvg', 20000);
+            $this->SetTimerInterval('UpdateSvg', $this->GetIntervalTime());
             $this->UpdateVisualizationValue($this->PrintSvg());
         } else {
             $this->SetTimerInterval('UpdateSvg', 0);
         }
-
     }
     
     public function GetVisualizationTile() {
@@ -59,6 +64,10 @@ class PVWattSVG extends IPSModule
 //        $this->SendDebug('Debug', 'GetVisualizationTile this Debug', 0);
         $module = file_get_contents(__DIR__ . '/module.html');
         return $module . $initialHandling;
+    }
+
+    private function GetIntervalTime() {
+        return $this->ReadPropertyInteger('IntervalTime') * 1000; // 45000 ms is equal to 45 seconds.
     }
 
     private function DrawChart($value, $current) {

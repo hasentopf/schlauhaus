@@ -10,6 +10,14 @@
       "type": "NumberSpinner",
       "name": "MaxPVPower",
       "caption": "Max PV Power (Nennleistung oder Maximalleistung)"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "IntervalTime",
+      "caption": "Updateinterval in Sekunden",
+      "minimum": 0,
+      "maximum": 100,
+      "suffix": "sec"
     }
   ],
   "actions": [

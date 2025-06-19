@@ -49,6 +49,7 @@
     <figcaption><small id="timerCountDown"></small></figcaption>
 </figure>
 <script>
+    let TimerInterval = 45; // TODO get this form module.php
 
     document.documentElement.style.setProperty('--font-color', queryParameters.get('textcolor'));
 
@@ -80,7 +81,7 @@
     }
 
     window.onload = function () {
-        const duration = 45,
+        const duration = TimerInterval,
             display = document.getElementById('timerCountDown');
         startTimer(duration, display);
     };
