@@ -59,6 +59,9 @@
      */
     function handleMessage(data) {
         document.getElementById('currentPVPowerSVG').innerHTML = data;
+        if (document.getElementById('IntervalTime') && document.getElementById('IntervalTime').dataset.time !== '') {
+            TimerInterval = parseInt(document.getElementById('IntervalTime').dataset.time);
+        }
     }
 
     /**

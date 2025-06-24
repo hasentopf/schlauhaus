@@ -44,7 +44,7 @@ class PVWattSVG extends IPSModule
 
 //            $this->WriteAttributeString('CurrentPVPowerSVG', $chart);
 
-            return $chart;
+            return $chart . '<div id="IntervalTime" data-time="'.$this->GetIntervalTime(false).'"></div>';
         } else {
             return 'Keine Daten für Total DC PV Power gesetzt.';
         }
@@ -66,8 +66,13 @@ class PVWattSVG extends IPSModule
         return $module . $initialHandling;
     }
 
-    private function GetIntervalTime() {
-        return $this->ReadPropertyInteger('IntervalTime') * 1000; // 45000 ms is equal to 45 seconds.
+    /**
+     * Returns the interval time in s or ms
+     * e.g. 45000 ms is equal to 45 seconds.
+     * @return float|int
+     */
+    private function GetIntervalTime($inMs = true) {
+        return ($inMs) ? $this->ReadPropertyInteger('IntervalTime') * 1000 : $this->ReadPropertyInteger('IntervalTime');
     }
 
     private function DrawChart($value, $current) {
