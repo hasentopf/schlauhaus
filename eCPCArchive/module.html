@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>eCPC</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+<style>
+    body {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .hidden {
+        display: none;
+    }
+    #eCPC {
+        margin: 50px 0 0 0;
+    }
+</style>
+<script type="text/javascript" charset="UTF-8">
+    function handleMessage(data) {
+        const decodedData = JSON.parse(data);
+
+        for (const parameter in decodedData) {
+            const element = document.getElementById(parameter);
+            // let root = document.documentElement;
+
+            switch (parameter) {
+                case 'ArchiveStart':
+                    element.value = decodedData[parameter];
+                    break;
+                case 'ArchiveEnd':
+                    element.value = decodedData[parameter];
+                    break;
+                case 'AggregationLevel':
+                    element.value = decodedData[parameter];
+                    break;
+                case 'ArchiveVarOptions':
+                    decodedData[parameter].forEach(function (item) {
+                        if(item != null) {
+                            element.add(new Option(item.Name, translate(item.Value)));
+                        }
+                    })
+                    break;
+                case 'AggregationLevelSelect':
+                    decodedData[parameter].forEach(function (item) {
+                        element.add(new Option(item.Name, item.Value, false, item.Selected));
+                    })
+                    break;
+                case 'Chart':
+                    element.innerHTML = decodedData[parameter];
+                    break;
+                default:
+                    console.log('Unknown parameter: ', parameter);
+            }
+        }
+
+    }
+</script>
+</head>
+<body>
+<div id="eCPC">
+    <form>
+        <fieldset class="container">
+            <div class="row">
+                <div class="column">
+                    <label for="AggregationLevelSelect">Stufe</label>
+                    <select id="AggregationLevelSelect" onchange="requestAction('AggregationLevel', this.value);"></select>
+                    <label for="ArchiveVarOptions">Archiv Variable</label>
+                    <select id="ArchiveVarOptions" onchange="requestAction('ArchiveVarSelect', this.value);"></select>
+                </div>
+                <div class="column">
+                    <label for="ArchiveStart">Start</label>
+                    <input type="date" id="ArchiveStart" onchange="requestAction('ArchiveStart', this.value);">
+                    <label for="ArchiveEnd">Ende</label>
+                    <input type="date" id="ArchiveEnd" onchange="requestAction('ArchiveEnd', this.value);">
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div id="Chart"></div>
+</div>
+
+</body>
+</html>

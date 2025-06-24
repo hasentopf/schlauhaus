@@ -3,15 +3,12 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/schlauhaus.php';
-require_once __DIR__ . '/../libs/QuickChartHelper.php';
 
 class eCPC extends IPSModule
 {
     use Schlauhaus;
 
-    public array $eCPCs = ['TotalHomeConsumptionID', 'TotalHomeConsumptionGridID', 'TotalDCPVEnergyID', 'TotalHomeConsumptionPVID', 'TotalEnergyACSideToGridID', 'TotalHomeConsumptionBatteryID', 'TotalDCchargeEnergyID', 'TotalACchargeEnergyID', 'TotalACdischargeEnergyID'];
-
-    public array $labelFormat = [2 => 'W', 3 => 'M', 4 => 'Y'];
+    public array $eCPCs = ['HomeConsumption' => ['TotalHomeConsumptionID', 'TotalHomeConsumptionBatteryID', 'TotalHomeConsumptionPVID', 'TotalHomeConsumptionGridID']];
 
     /**
      * In contrast to Construct, this function is called only once when creating the instance and starting IP-Symcon.
@@ -20,37 +17,14 @@ class eCPC extends IPSModule
     public function Create() {
         parent::Create();
 
-        if (!IPS_VariableProfileExists('eCPC.AggregationLevel')) {
-            IPS_CreateVariableProfile('eCPC.AggregationLevel', 1);
-            IPS_SetVariableProfileValues('eCPC.AggregationLevel', 2, 4, 1);
-            IPS_SetVariableProfileIcon('eCPC.AggregationLevel', 'box-archive');
-
-            IPS_SetVariableProfileAssociation('eCPC.AggregationLevel', 2, 'weekly', '', -1);
-            IPS_SetVariableProfileAssociation('eCPC.AggregationLevel', 3, 'monthly', '', -1);
-            IPS_SetVariableProfileAssociation('eCPC.AggregationLevel', 4, 'yearly', '', -1);
-        }
-
-        $this->RegisterVariableInteger('AggregationLevel', 'Level', 'eCPC.AggregationLevel');
-
-        $this->RegisterPropertyBoolean('InstanceActive', false);
-
-        foreach ($this->eCPCs as $eCPC) {
+        foreach ($this->eCPCs['HomeConsumption'] as $eCPC) {
             $this->RegisterPropertyInteger($eCPC, 0);
         }
 
-        $this->EnableAction('AggregationLevel');
-
-        $this->RegisterAttributeInteger('ArchiveStart', strtotime('-1 months'));
-        $this->RegisterAttributeInteger('ArchiveEnd', time());
-
-        $this->RegisterAttributeInteger('ArchiveVarSelect', 0);
-
-        $this->RegisterPropertyInteger('FontColor', 0xff0000);
-        $this->RegisterPropertyInteger('BarColor', 0xff0000);
+        $this->RegisterAttributeInteger('SelectDay', strtotime('-1 months'));
 
         $this->SetVisualizationType(1);
-
-//        $this->RegisterPropertyBoolean('AutoDebug', false);
+        $this->RegisterPropertyBoolean('AutoDebug', false);
     }
 
 
@@ -62,21 +36,14 @@ class eCPC extends IPSModule
         parent::ApplyChanges();
 
         $noValuesSet = true;
-        foreach ($this->eCPCs as $eCPC) {
-            if ($this->ReadPropertyInteger($eCPC) > 0) {
+        foreach ($this->eCPCs['HomeConsumption'] as $homeConsumption) {
+            if ($this->ReadPropertyInteger($homeConsumption) > 0) {
                 $noValuesSet = false;
             }
         }
         if ($noValuesSet) {
-            $this->SetStatus(201); // No Archive values set
+            $this->SetStatus(201); // No home consumption values set
             return false;
-        }
-
-
-        if ($this->ReadPropertyBoolean("InstanceActive")) {
-            $this->SetStatus(102); // Instanz aktiveren
-        } else {
-            $this->SetStatus(104); // Instanz deaktiveren
         }
 
         $this->Reload();
@@ -102,138 +69,47 @@ class eCPC extends IPSModule
     private function GetFullUpdateMessage() {
         $result = [];
 
-        $AggregationLevel = $this->GetValue('AggregationLevel');
-
-        $AggregationLevelOptions = IPS_GetVariableProfile('eCPC.AggregationLevel')['Associations'];
-        $AggregationLevelOptions = array_map(
-            function ($a) use ($AggregationLevel) {
-                $a['Selected'] = $a['Value'] == $AggregationLevel;
-                return $a;
-            },
-            $AggregationLevelOptions
-        );
-        $result['AggregationLevelSelect'] = $AggregationLevelOptions;
-
-        $generateChart = false;
-        $initializedArchiveValues = [];
-        foreach ($this->eCPCs as $eCPC) {
-            if ($this->ReadPropertyInteger($eCPC) > 0) {
-                $initializedArchiveValues[] = ['Name' => $eCPC, 'Value' => $this->ReadPropertyInteger($eCPC)];
-                $generateChart = true;
-            }
-        }
-        $result['ArchiveVarOptions'] = $initializedArchiveValues;
-
-        $result['ArchiveStart'] = date('Y-m-d', $this->ReadAttributeInteger('ArchiveStart'));
-        $result['ArchiveEnd'] = date('Y-m-d', $this->ReadAttributeInteger('ArchiveEnd'));
-
-        if($generateChart && $this->ReadAttributeInteger('ArchiveVarSelect') > 0) {
-            $result['Chart'] = $this->generateChart();
-        }
+        $result['SelectDay'] = date('Y-m-d', $this->ReadAttributeInteger('SelectDay'));
+        $result['Table'] = $this->generateTable();
 
         return json_encode($result);
     }
 
-    private function generateChart() {
+    private function generateTable() {
         $archiveID = $this->GetArchivID();
-        $archiveVariable = $this->ReadAttributeInteger('ArchiveVarSelect');
-        $aggregationLevel = $this->GetValue('AggregationLevel');
+        $aggregationLevel = 1; // täglich
+        $tableValues = [];
+        $selectDay = $this->ReadAttributeInteger('SelectDay');
+        $startTime = date("d.m.Y", $selectDay) . ' 00:00:00';
+        $startTime = strtotime($startTime);
+        $endTime = date("d.m.Y", $selectDay) . ' 23:59:59';
+        $endTime = strtotime($endTime);
 
-        $Profile = IPS_GetVariableProfile('Aggregationsstufe');
-        $profile_name = '';
-        foreach($Profile['Associations'] as $association) {
-            if($association['Value'] == $aggregationLevel) {
-                $profile_name = $association['Name'];
-                break;
+        foreach ($this->eCPCs['HomeConsumption'] as $homeConsumption) {
+            $archiveVariable = $this->ReadPropertyInteger($homeConsumption);
+            $temp = AC_GetAggregatedValues($archiveID, $archiveVariable, $aggregationLevel, $startTime, $endTime, 0);
+
+            $labels = $values = [];
+            for ($count=0; $count < count($temp); $count++) {
+                $verbrauch = (string) round($temp[$count]['Avg'], 2); // Durchschnittswert
+                $values[] = $verbrauch;
             }
+            $tableValues[$homeConsumption] = $values;
         }
 
-        $this->SendDebug('Debug', 'Debug $archiveVariable: '. $archiveVariable, 0);
-        $temp = AC_GetAggregatedValues($archiveID, $archiveVariable, $aggregationLevel, $this->ReadAttributeInteger('ArchiveStart'), $this->ReadAttributeInteger('ArchiveEnd'), 0);  // 1 = day, 2 = Week, 3 = month,4 =year, 0 = Hour
-        $label_format = $this->labelFormatHelper($aggregationLevel);
-        $labels = $values = [];
-        for ($count=0; $count < count($temp); $count++) {
-            $verbrauch = (string) round($temp[$count]['Avg'], 2); // Durchschnittswert
-            $zahl_neu = str_replace(".",",", $verbrauch); // Punkt durch Komma ersetzen
-            $values[] = $verbrauch;
-            $dat = date($label_format, $temp[$count]['TimeStamp']);
-            $labels[] = $dat;
-            $liste[$count] = $dat.": " . $zahl_neu;
-        }
-
-        $fontColor = $this->getHexColor($this->ReadPropertyInteger('FontColor'));
-        $barColor = $this->getHexColor($this->ReadPropertyInteger('BarColor'));
-
-        $headline = IPS_GetName($archiveVariable);
-
-        return $this->drawQuickChart($labels, $values, $profile_name, $headline, $fontColor, $barColor);
-    }
-
-    private function labelFormatHelper($aggregationLevel) {
-        return array_key_exists($aggregationLevel, $this->labelFormat) ? $this->labelFormat[$aggregationLevel] : "d.m.Y";
+        return $tableValues;
     }
 
     public function RequestAction($Ident, $Value) {
         switch ($Ident) {
-            case 'AggregationLevel':
-                $this->SetValue('AggregationLevel', $Value);
-                break;
-            case 'ArchiveVarSelect':
-                $this->WriteAttributeInteger('ArchiveVarSelect', $Value);
-                break;
-            case 'ArchiveStart':
-                $this->WriteAttributeInteger('ArchiveStart', strtotime($Value));
-                break;
-            case 'ArchiveEnd':
-                $this->WriteAttributeInteger('ArchiveEnd', strtotime($Value));
+            case 'SelectDay':
+                $this->WriteAttributeInteger('SelectDay', strtotime($Value));
                 break;
         }
         $this->UpdateVisualizationValue(json_encode([
-            'Chart' => $this->generateChart()
+            'SelectDay' => $Value,
+            'Table' => $this->generateTable()
         ]));
     }
 
-    private function getHexColor($colorInt) {
-        return sprintf('#%02x%02x%02x', ($colorInt >> 16) & 0xFF, ($colorInt >> 8) & 0xFF, $colorInt & 0xFF);
-    }
-
-    private function drawQuickChart($labels, $values, $label, $headline, $fontColor = '#FFFFFF', $barColor = '#000000') {
-        // new chart object
-        $chart = new QuickChart(['width' => 500, 'height' => 500, 'format' => 'svg']);
-        // chart config
-        $chart->setConfig("{
-            type: 'bar',
-            data: {
-                labels: ['".implode("','", $labels)."'],   // Set X-axis labels
-                datasets: [{
-                    label: '$label',
-                    backgroundColor: '".$barColor."',
-                    data: [".implode(',', $values)."]
-                }]
-            },
-            options: {        
-                title: {
-                    display: true,
-                    text: '$headline',
-                    position: 'bottom',
-                },
-                plugins: {
-                    datalabels: {
-                        anchor: 'center',
-                        align: 'center',
-                        color: '".$fontColor."',
-                        formatter: function (value, context) {
-                            return value + ' kWh';
-                        },
-                        font: {
-                            size: 8,
-                            weight: 'normal',
-                        },
-                    },
-                }
-            }
-        }");
-        //$this->SendDebug('Debug', 'Debug $chart->getConfig: '. print_r($chart->getConfig()), 0);
-        return $chart->toBinary();
-    }
 }

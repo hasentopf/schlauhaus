@@ -1,0 +1,28 @@
+{
+  "translations": {
+    "de": {
+      "eCPC": "energy consumption price cost archive",
+      "Intro Label": "Energieverbrauch Preis Kosten Archiv",
+      "No archive values set": "Bisher keine Energieverbrauchsarchivwerte festgelegt.",
+      "This module enables you to get data.": "Mit diesem Modul können Sie Daten abrufen und darstellen.",
+      "Creating instance": "Die Instanz wird erstellt.",
+      "Activate Instance": "Instanz aktivieren",
+      "Instance active": "Instanz ist aktiv.",
+      "Instance inactive": "Instanz ist inaktiv.",
+      "TotalHomeConsumptionID": "Hausverbrauch (Total home consumption)",
+      "TotalHomeConsumptionGridID": "Netzbezug (Total home consumption grid)",
+      "TotalDCPVEnergyID": "PV-Produktion (Total DC PV energy)",
+      "TotalHomeConsumptionPVID": "PV-Nutzung (Total home consumption PV)",
+      "TotalEnergyACSideToGridID": "PV-Einspeisung (Total energy AC-side to grid)",
+      "TotalHomeConsumptionBatteryID": "Batterienutzung (Total home consumption Battery)",
+      "TotalDCchargeEnergyID": "Batterie-Einspeisung aus PV (Total DC charge energy)",
+      "TotalACchargeEnergyID": "Batterie-Einspeisung aus Netz (Total AC charge energy)",
+      "TotalACdischargeEnergyID": "Batterientladung ins Netz (Total AC discharge energy)",
+      "Label Color": "Labelfarbe",
+      "Bar Color": "Balkenfarbe",
+      "weekly": "wöchentlich",
+      "monthly": "monatlich",
+      "yearly": "jährlich"
+    }
+  }
+}

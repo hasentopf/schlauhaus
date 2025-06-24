@@ -1,0 +1,12 @@
+{
+  "id": "{EBA2AA47-9EE1-3E70-2757-1A287E061ED6}",
+  "name": "eCPCArchive",
+  "url": "https://github.com/hasentopf/schlauhaus/",
+  "vendor": "",
+  "aliases": [],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "type": 3,
+  "prefix": "ECPCA"
+}

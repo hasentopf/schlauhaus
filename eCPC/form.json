@@ -1,60 +1,9 @@
 {
-  "elements":
-  [
-    {
-      "type": "RowLayout",
-      "items": [
-        {
-          "type": "Image",
-          "image": "data:image/png;base64,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",
-          "link": true,
-          "onClick": "echo 'https://schlauhaus.com';"
-        },
-        {
-          "type": "Label",
-          "label": "Intro Label",
-          "link": false,
-          "bold": true
-        }
-      ]
-    },
-    {
-      "type": "Label",
-      "label": "This module enables you to get data."
-    },
-    {
-      "name": "InstanceActive",
-      "type": "CheckBox",
-      "caption": "Activate Instance"
-    },
+  "elements": [
     {
       "type": "SelectVariable",
       "name": "TotalHomeConsumptionID",
       "caption": "TotalHomeConsumptionID",
-      "validVariableTypes": [1, 2]
-    },
-    {
-      "type": "SelectVariable",
-      "name": "TotalHomeConsumptionGridID",
-      "caption": "TotalHomeConsumptionGridID",
-      "validVariableTypes": [1, 2]
-    },
-    {
-      "type": "SelectVariable",
-      "name": "TotalDCPVEnergyID",
-      "caption": "TotalDCPVEnergyID",
-      "validVariableTypes": [1, 2]
-    },
-    {
-      "type": "SelectVariable",
-      "name": "TotalHomeConsumptionPVID",
-      "caption": "TotalHomeConsumptionPVID",
-      "validVariableTypes": [1, 2]
-    },
-    {
-      "type": "SelectVariable",
-      "name": "TotalEnergyACSideToGridID",
-      "caption": "TotalEnergyACSideToGridID",
       "validVariableTypes": [1, 2]
     },
     {
@@ -65,33 +14,15 @@
     },
     {
       "type": "SelectVariable",
-      "name": "TotalDCchargeEnergyID",
-      "caption": "TotalDCchargeEnergyID",
+      "name": "TotalHomeConsumptionGridID",
+      "caption": "TotalHomeConsumptionGridID",
       "validVariableTypes": [1, 2]
     },
     {
       "type": "SelectVariable",
-      "name": "TotalACchargeEnergyID",
-      "caption": "TotalACchargeEnergyID",
+      "name": "TotalHomeConsumptionPVID",
+      "caption": "TotalHomeConsumptionPVID",
       "validVariableTypes": [1, 2]
-    },
-    {
-      "type": "SelectVariable",
-      "name": "TotalACdischargeEnergyID",
-      "caption": "TotalACdischargeEnergyID",
-      "validVariableTypes": [1, 2]
-    },
-    {
-      "type": "SelectColor",
-      "name": "FontColor",
-      "caption": "Label Color",
-      "allowTransparent": false
-    },
-    {
-      "type": "SelectColor",
-      "name": "BarColor",
-      "caption": "Bar Color",
-      "allowTransparent": false
     }
   ],
   "actions": [
@@ -104,24 +35,9 @@
   "status":
   [
     {
-      "code": 101,
-      "icon": "inactive",
-      "caption": "Creating instance"
-    },
-    {
-      "code": 102,
-      "icon": "active",
-      "caption": "Instance active"
-    },
-    {
-      "code": 104,
-      "icon": "inactive",
-      "caption": "Instance inactive"
-    },
-    {
       "code": 201,
       "icon": "inactive",
-      "caption": "No archive values set"
+      "caption": "No Home Consumption values set"
     }
   ]
 }

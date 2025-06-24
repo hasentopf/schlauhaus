@@ -27,29 +27,13 @@
             // let root = document.documentElement;
 
             switch (parameter) {
-                case 'ArchiveStart':
+                case 'SelectDay':
                     element.value = decodedData[parameter];
                     break;
-                case 'ArchiveEnd':
-                    element.value = decodedData[parameter];
-                    break;
-                case 'AggregationLevel':
-                    element.value = decodedData[parameter];
-                    break;
-                case 'ArchiveVarOptions':
-                    decodedData[parameter].forEach(function (item) {
-                        if(item != null) {
-                            element.add(new Option(item.Name, translate(item.Value)));
-                        }
-                    })
-                    break;
-                case 'AggregationLevelSelect':
-                    decodedData[parameter].forEach(function (item) {
-                        element.add(new Option(item.Name, item.Value, false, item.Selected));
-                    })
-                    break;
-                case 'Chart':
-                    element.innerHTML = decodedData[parameter];
+                case 'Table':
+                    for (const [key, value] of Object.entries(decodedData[parameter])) {
+                        document.getElementById(key).textContent = value;
+                    }
                     break;
                 default:
                     console.log('Unknown parameter: ', parameter);
@@ -65,21 +49,18 @@
         <fieldset class="container">
             <div class="row">
                 <div class="column">
-                    <label for="AggregationLevelSelect">Stufe</label>
-                    <select id="AggregationLevelSelect" onchange="requestAction('AggregationLevel', this.value);"></select>
-                    <label for="ArchiveVarOptions">Archiv Variable</label>
-                    <select id="ArchiveVarOptions" onchange="requestAction('ArchiveVarSelect', this.value);"></select>
-                </div>
-                <div class="column">
-                    <label for="ArchiveStart">Start</label>
-                    <input type="date" id="ArchiveStart" onchange="requestAction('ArchiveStart', this.value);">
-                    <label for="ArchiveEnd">Ende</label>
-                    <input type="date" id="ArchiveEnd" onchange="requestAction('ArchiveEnd', this.value);">
+                    <label for="SelectDay">Select Day</label>
+                    <input type="date" id="SelectDay" onchange="requestAction('SelectDay', this.value);">
                 </div>
             </div>
         </fieldset>
     </form>
-    <div id="Chart"></div>
+    <div id="Table">
+        <div>Total Home Consumption: <span id="TotalHomeConsumptionID"></span>kW/h</div>
+        <div>Consumption Battery: <span id="TotalHomeConsumptionBatteryID"></span>kW/h</div>
+        <div>Consumption Grid: <span id="TotalHomeConsumptionGridID"></span>kW/h</div>
+        <div>Consumption PV: <span id="TotalHomeConsumptionPVID"></span>kW/h</div>
+    </div>
 </div>
 
 </body>
