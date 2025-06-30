@@ -10,6 +10,10 @@
     body {
         margin-left: 0;
         margin-right: 0;
+        color: var(--font-color);
+    }
+    input {
+        color: var(--font-color);
     }
     .hidden {
         display: none;
@@ -19,6 +23,10 @@
     }
 </style>
 <script type="text/javascript" charset="UTF-8">
+    let darkMode = (queryParameters.get('textcolor') === 'ffffff');
+    let fontColor = (darkMode) ? '#ffffff' : '#606c76';
+    document.documentElement.style.setProperty('--font-color', fontColor );
+
     function handleMessage(data) {
         const decodedData = JSON.parse(data);
 

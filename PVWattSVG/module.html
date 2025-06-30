@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Current PV Power SVG</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
 <style>
     body {
         margin-left: 0;
         margin-right: 0;
-    }
-    .hidden {
-        display: none;
+        color: var(--font-color);
     }
     figure {
         position: relative;
@@ -33,13 +28,13 @@
     #currentPVPowerSVG {
         width: 100%;
         padding: 1rem;
-        background-color: rgb(230,246,231);
+        /*background-color: rgb(230,246,231);*/
     }
     #currentPVPowerSVG svg {
         width: 100%;
         height: auto;
         object-fit: cover;
-        color: var(--content-color, var(--font-color));
+        color: var(--font-color);
     }
 </style>
 </head>
@@ -49,9 +44,10 @@
     <figcaption><small id="timerCountDown"></small></figcaption>
 </figure>
 <script>
-    let TimerInterval = 45; // TODO get this form module.php
-
-    document.documentElement.style.setProperty('--font-color', queryParameters.get('textcolor'));
+    let TimerInterval = 45;
+    let darkMode = (queryParameters.get('textcolor') === 'ffffff');
+    let fontColor = (darkMode) ? '#ffffff' : '#606c76';
+    document.documentElement.style.setProperty('--font-color', fontColor );
 
     /**
      * handles the message from the server
