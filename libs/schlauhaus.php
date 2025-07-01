@@ -20,5 +20,15 @@ trait Schlauhaus {
         }
         return $archive_id;
     }
+
+
+    /**
+     * Get Hex Color
+     * @param int $colorInt
+     * @return string
+     */
+    protected function GetHexColor($colorInt) {
+        return sprintf('#%02x%02x%02x', ($colorInt >> 16) & 0xFF, ($colorInt >> 8) & 0xFF, $colorInt & 0xFF);
+    }
     
 }

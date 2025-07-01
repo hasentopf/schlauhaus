@@ -2,10 +2,16 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../libs/schlauhaus.php';
 require_once __DIR__ . '/../libs/QuickChartHelper.php';
 
 class PVWattSVG extends IPSModule
 {
+    use Schlauhaus;
+
+    private const HTML_Color_White = 0xFFFFFF;
+    private const HTML_Color_Black = 0x606c76;
+
     public function Create() {
         //Never delete this line!
         parent::Create();
@@ -17,6 +23,8 @@ class PVWattSVG extends IPSModule
 
         // RegisterTimer to update the SVG periodically
         $this->RegisterTimer('UpdateSvg', 0, 'PVW_UpdateSvgTimer($_IPS[\'TARGET\']);');
+
+        $this->RegisterAttributeInteger('SvgFontColor', self::HTML_Color_White);
 
         $this->SetVisualizationType(1);
 
@@ -35,7 +43,9 @@ class PVWattSVG extends IPSModule
             $max_pv = $this->ReadPropertyInteger('MaxPVPower');
             $current_perc = ($current_pv / $max_pv) * 100;
 
-            $chart = $this->DrawChart($current_perc, $current_pv);
+            $font_color = $this->GetHexColor($this->ReadAttributeInteger('SvgFontColor'));
+
+            $chart = $this->DrawChart($current_perc, $current_pv, $font_color);
 
 //            $this->SendDebug('Debug', 'Debug $max_pv: '. $max_pv, 0);
 //            $this->SendDebug('Debug', 'Debug $current_pv: '. $current_pv, 0);
@@ -58,7 +68,16 @@ class PVWattSVG extends IPSModule
             $this->SetTimerInterval('UpdateSvg', 0);
         }
     }
-    
+
+    public function RequestAction($Ident, $Value) {
+        switch ($Ident) {
+            case 'DarkMode':
+                $fontColor = ($Value) ? self::HTML_Color_White : self::HTML_Color_Black;
+//                $this->SendDebug('Debug', 'DarkMode $fontColor: '. $fontColor, 0);
+                $this->WriteAttributeInteger('SvgFontColor', $fontColor);
+                break;
+        }
+    }
     public function GetVisualizationTile() {
         $initialHandling = '<script>handleMessage(' . json_encode($this->PrintSvg()) . ')</script>';
 //        $this->SendDebug('Debug', 'GetVisualizationTile this Debug', 0);
@@ -75,7 +94,7 @@ class PVWattSVG extends IPSModule
         return ($inMs) ? $this->ReadPropertyInteger('IntervalTime') * 1000 : $this->ReadPropertyInteger('IntervalTime');
     }
 
-    private function DrawChart($value, $current) {
+    private function DrawChart($value, $current, $font_color) {
         // new chart object
         $chart = new QuickChart(['width' => 250, 'height' => 220, 'format' => 'svg']);
         // chart config
@@ -89,7 +108,8 @@ class PVWattSVG extends IPSModule
                     data: [20, 40, 60, 80, 100],
                     minValue: 0,
                     backgroundColor: ['red', 'orange', 'yellow', 'rgb(110,182,67)', 'rgb(14,147,137)'],
-                    borderWidth: 1,
+                    borderWidth: 0.5,
+                    borderColor: '$font_color',
                 },
             ],
         },
@@ -103,12 +123,12 @@ class PVWattSVG extends IPSModule
                 radiusPercentage: 1,
                 widthPercentage: 1,
                 lengthPercentage: 60,
-                color: '#6a5d4d',
+                color: '$font_color', // #6a5d4d
             },
             valueLabel: {
                 fontSize: 10,
                 backgroundColor: 'transparent',
-                color: '#6a5d4d',
+                color: '$font_color',
                 formatter: function (value, context) {
                     return  '$current W';
                 },

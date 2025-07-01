@@ -39,6 +39,7 @@
 </style>
 </head>
 <body>
+<!--this.value-->
 <figure>
     <div id="currentPVPowerSVG"></div>
     <figcaption><small id="timerCountDown"></small></figcaption>
@@ -83,6 +84,7 @@
         const duration = TimerInterval,
             display = document.getElementById('timerCountDown');
         startTimer(duration, display);
+        requestAction('DarkMode', darkMode);
     };
 </script>
 </body>

@@ -155,8 +155,8 @@ class eCPCArchive extends IPSModule
             $liste[$count] = $dat.": " . $zahl_neu;
         }
 
-        $fontColor = $this->getHexColor($this->ReadPropertyInteger('FontColor'));
-        $barColor = $this->getHexColor($this->ReadPropertyInteger('BarColor'));
+        $fontColor = $this->GetHexColor($this->ReadPropertyInteger('FontColor'));
+        $barColor = $this->GetHexColor($this->ReadPropertyInteger('BarColor'));
 
         $headline = IPS_GetName($archiveVariable);
 
@@ -185,10 +185,6 @@ class eCPCArchive extends IPSModule
         $this->UpdateVisualizationValue(json_encode([
             'Chart' => $this->generateChart()
         ]));
-    }
-
-    private function getHexColor($colorInt) {
-        return sprintf('#%02x%02x%02x', ($colorInt >> 16) & 0xFF, ($colorInt >> 8) & 0xFF, $colorInt & 0xFF);
     }
 
     private function drawQuickChart($labels, $values, $label, $headline, $fontColor = '#FFFFFF', $barColor = '#000000') {
