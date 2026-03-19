@@ -11,7 +11,7 @@ MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
 MQTT_USERNAME = "mqttZ2M"
 MQTT_PASSWORD = "your_password"
-MQTT_TOPIC = "home/dht22"
+MQTT_TOPIC = "sensors/dht22"
 
 dht = adafruit_dht.DHT22(DHT_PIN)
 
