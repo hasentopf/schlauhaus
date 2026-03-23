@@ -22,7 +22,7 @@ class EnergyMonitor extends IPSModule
 
         $this->RegisterTimer('UpdateTimer', 0, 'PVW_Update($_IPS[\'TARGET\']);');
 
-        $this->RegisterVariableString('HTMLContent', 'HTML Content', '~HTML', 0);
+        $this->RegisterVariableString('HTMLContent', 'HTML Content', '', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
 
         $this->SetVisualizationType(1);
