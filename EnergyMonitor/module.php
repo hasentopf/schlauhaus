@@ -14,8 +14,6 @@ class EnergyMonitor extends IPSModule
     {
         parent::Create();
 
-        $this->SetVisualizationType(1);
-
         $this->RegisterPropertyInteger('ArchiveId', 0);
         $this->RegisterPropertyString('Variables', '[]');
         $this->RegisterPropertyInteger('UpdateInterval', 60);
@@ -26,6 +24,8 @@ class EnergyMonitor extends IPSModule
 
         $this->RegisterVariableString('HTMLContent', 'HTML Content', '~HTML', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
+
+        $this->SetVisualizationType(1);
     }
 
     public function ApplyChanges()
@@ -90,7 +90,11 @@ class EnergyMonitor extends IPSModule
         $data = $this->collectData($archiveId, $variables, $isEarly);
         $this->saveData($data);
         $html = $this->generateHtml($data);
-        $this->SetValue('HTMLContent', $html);
+        
+        $htmlContentId = $this->GetIDForIdent('HTMLContent');
+        if ($htmlContentId !== false) {
+            SetValueString($htmlContentId, $html);
+        }
     }
 
     private function isShortlyAfterMidnight(int $seconds = 300): bool
@@ -204,7 +208,14 @@ class EnergyMonitor extends IPSModule
     public function GetVisualizationTile()
     {
         $module = file_get_contents(__DIR__ . '/module.html');
-        $html = $this->GetValue('HTMLContent');
+        
+        $htmlContentId = $this->GetIDForIdent('HTMLContent');
+        if ($htmlContentId !== false) {
+            $html = GetValueString($htmlContentId);
+        } else {
+            $html = '';
+        }
+        
         return str_replace('{{CONTENT}}', $html, $module);
     }
 }
