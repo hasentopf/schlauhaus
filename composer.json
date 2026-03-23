@@ -1,0 +1,16 @@
+{
+  "name": "Schlauhaus",
+  "description": "Schlauhaus Module",
+  "keywords": [
+    "chart", "charts", "energy", "energy-monitor", "symcon", "schlauhaus"
+  ],
+  "homepage": "https://github.com/hasentopf/schlauhaus/",
+  "license": "MIT",
+  "authors": [{
+    "name": "Mathias von Heckel",
+    "homepage": "https://schlauhaus.com/"
+  }],
+  "require": {
+    "php": ">=7.4"
+  }
+}
