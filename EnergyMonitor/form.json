@@ -48,29 +48,53 @@
       "delete": true,
       "columns": [
         {
-          "name": "Name",
-          "caption": "Name",
-          "width": "150px"
+          "name": "Title",
+          "caption": "Energy Name",
+          "width": "150px",
+          "add": "",
+          "edit": {
+            "type": "ValidationTextBox"
+          }
         },
         {
           "name": "VariableId",
           "caption": "Source Variable",
-          "width": "200px"
+          "width": "200px",
+          "add": 0,
+          "edit": {
+            "type": "SelectVariable"
+          }
         },
         {
           "name": "YesterdayTarget",
           "caption": "Yesterday Target",
-          "width": "150px"
+          "width": "150px",
+          "add": 0,
+          "edit": {
+            "type": "SelectVariable"
+          }
         },
         {
           "name": "TodayTarget",
           "caption": "Today Target",
-          "width": "150px"
+          "width": "150px",
+          "add": 0,
+          "edit": {
+            "type": "SelectVariable"
+          }
         },
         {
           "name": "Type",
           "caption": "Type",
-          "width": "100px"
+          "width": "100px",
+          "add": "verbrauch",
+          "edit": {
+            "type": "Select",
+            "options": [
+              { "caption": "Verbrauch", "value": "verbrauch" },
+              { "caption": "Ertrag", "value": "ertrag" }
+            ]
+          }
         }
       ],
       "values": []

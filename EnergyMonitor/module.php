@@ -23,6 +23,10 @@ class EnergyMonitor extends IPSModule
         $this->RegisterTimer('UpdateTimer', 0, 'PVW_Update($_IPS[\'TARGET\']);');
 
         $this->RegisterVariableString('HTMLContent', 'HTML Content', '', 0);
+        $this->RegisterVariableFloat('TotalYesterday', 'Total Yesterday', '', 1);
+        $this->RegisterVariableFloat('TotalToday', 'Total Today', '', 2);
+        $this->RegisterVariableFloat('TotalYesterdayYield', 'Total Yesterday Yield', '', 3);
+        $this->RegisterVariableFloat('TotalTodayYield', 'Total Today Yield', '', 4);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
 
         $this->SetVisualizationType(1);
@@ -31,6 +35,11 @@ class EnergyMonitor extends IPSModule
     public function ApplyChanges()
     {
         parent::ApplyChanges();
+
+        $this->RegisterVariableFloat('TotalYesterday', 'Total Yesterday', '', 1);
+        $this->RegisterVariableFloat('TotalToday', 'Total Today', '', 2);
+        $this->RegisterVariableFloat('TotalYesterdayYield', 'Total Yesterday Yield', '', 3);
+        $this->RegisterVariableFloat('TotalTodayYield', 'Total Today Yield', '', 4);
 
         $this->SetTimerInterval('UpdateTimer', $this->ReadPropertyInteger('UpdateInterval') * 1000);
 
@@ -110,11 +119,15 @@ class EnergyMonitor extends IPSModule
         $data = [];
 
         foreach ($variables as $var) {
-            $varId = $var['VariableId'];
-            $yesterdayTarget = $var['YesterdayTarget'];
-            $todayTarget = $var['TodayTarget'];
-            $name = $var['Name'];
-            $type = $var['Type'];
+            $varId = $var['VariableId'] ?? 0;
+            $yesterdayTarget = $var['YesterdayTarget'] ?? 0;
+            $todayTarget = $var['TodayTarget'] ?? 0;
+            $name = $var['Title'] ?? '';
+            $type = $var['Type'] ?? 'verbrauch';
+
+            if ($varId === 0 || $yesterdayTarget === 0 || $todayTarget === 0) {
+                continue;
+            }
 
             if ($updateYesterday) {
                 $yesterdayData = AC_GetAggregatedValues($archiveId, $varId, 1, strtotime('yesterday'), strtotime('today') - 1, 0);
@@ -125,7 +138,7 @@ class EnergyMonitor extends IPSModule
             SetValueFloat($todayTarget, $this->calcConsumption($todayData));
 
             $data[] = [
-                'name' => $name,
+                'title' => $name,
                 'type' => $type,
                 'yesterday' => GetValueFloat($yesterdayTarget),
                 'today' => GetValueFloat($todayTarget)
@@ -172,7 +185,7 @@ class EnergyMonitor extends IPSModule
         $html = '<table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%; text-align: left;">';
         $html2 = '<br><table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%; text-align: left;">';
         $html .= '<tr><th>Hausverbrauch</th><th>Gestern</th><th>Heute</th></tr>';
-        $html2 .= '<tr><th>PV-Ertrag</th><th>Gestern</th><th>Heute</th></tr>';
+        $html2 .= '<tr><th>Hausertrag</th><th>Gestern</th><th>Heute</th></tr>';
 
         $totalYesterday = 0;
         $totalToday = 0;
@@ -182,7 +195,7 @@ class EnergyMonitor extends IPSModule
         foreach ($data as $item) {
             if ($item['type'] === 'verbrauch') {
                 $html .= '<tr>';
-                $html .= '<td>' . htmlspecialchars($item['name']) . '</td>';
+                $html .= '<td>' . htmlspecialchars($item['title']) . '</td>';
                 $html .= '<td>' . $item['yesterday'] . ' kWh</td>';
                 $html .= '<td>' . $item['today'] . ' kWh</td>';
                 $html .= '</tr>';
@@ -190,7 +203,7 @@ class EnergyMonitor extends IPSModule
                 $totalToday += $item['today'];
             } else {
                 $html2 .= '<tr>';
-                $html2 .= '<td>' . htmlspecialchars($item['name']) . '</td>';
+                $html2 .= '<td>' . htmlspecialchars($item['title']) . '</td>';
                 $html2 .= '<td>' . $item['yesterday'] . ' kWh</td>';
                 $html2 .= '<td>' . $item['today'] . ' kWh</td>';
                 $html2 .= '</tr>';
