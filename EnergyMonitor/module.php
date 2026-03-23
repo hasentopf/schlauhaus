@@ -22,7 +22,9 @@ class EnergyMonitor extends IPSModule
         $this->RegisterPropertyBoolean('EarlyMorningUpdate', true);
         $this->RegisterPropertyInteger('EarlyMorningWindow', 600);
 
-        $this->RegisterTimer('UpdateTimer', 0, 'VAA_Update($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('UpdateTimer', 0, 'PVW_Update($_IPS[\'TARGET\']);');
+
+        $this->RegisterVariableString('HTMLContent', 'HTML Content', '~HTML', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
     }
 
@@ -43,6 +45,17 @@ class EnergyMonitor extends IPSModule
 
         if ($Message === IPS_KERNELSTARTED) {
             $this->UpdateData();
+        }
+    }
+
+    public function RequestAction($ident, $value)
+    {
+        switch ($ident) {
+            case 'Update':
+                $this->UpdateData();
+                break;
+            default:
+                throw new Exception('Invalid ident');
         }
     }
 

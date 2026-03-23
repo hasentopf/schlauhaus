@@ -80,7 +80,7 @@
     {
       "type": "Button",
       "caption": "Update Now",
-      "onClick": "VAA_Update($id);"
+      "onClick": "PVW_Update($id);"
     }
   ]
 }
