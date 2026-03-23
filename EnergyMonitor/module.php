@@ -21,14 +21,16 @@ class EnergyMonitor extends IPSModule
         $this->RegisterPropertyInteger('UpdateInterval', 60);
         $this->RegisterPropertyBoolean('EarlyMorningUpdate', true);
         $this->RegisterPropertyInteger('EarlyMorningWindow', 600);
+
+        $this->RegisterTimer('UpdateTimer', 0, 'VAA_Update($_IPS[\'TARGET\']);');
+        $this->RegisterMessage(0, IPS_KERNELSTARTED);
     }
 
     public function ApplyChanges()
     {
         parent::ApplyChanges();
 
-        $this->RegisterMessage(0, IPS_KERNELSTARTED);
-        $this->RegisterTimer('UpdateTimer', $this->ReadPropertyInteger('UpdateInterval') * 1000, 'VAA_Update($_IPS[\'TARGET\']);');
+        $this->SetTimerInterval('UpdateTimer', $this->ReadPropertyInteger('UpdateInterval') * 1000);
 
         if (IPS_GetKernelRunlevel() === KR_READY) {
             $this->UpdateData();
