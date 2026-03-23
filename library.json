@@ -2,11 +2,11 @@
   "id": "{4F0B0E3C-EA1C-FE0C-22C7-9EE624845A6C}",
   "name": "Schlauhaus",
   "author": "hasentopf",
-  "url": "",
+  "url": "https://schlauhaus.com/",
   "compatibility": {
-    "version": "7.1"
+    "version": "8.1"
   },
-  "version": "0.2",
+  "version": "0.3",
   "build": 20252406,
   "date": 1750769817
 }

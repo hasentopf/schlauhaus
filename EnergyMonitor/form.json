@@ -1,0 +1,86 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+      "caption": "Archive Configuration"
+    },
+    {
+      "type": "SelectInstance",
+      "name": "ArchiveId",
+      "caption": "Archive Instance",
+      "moduleID": "{43192F0B-135B-4CE7-A0A7-1475603F3060}"
+    },
+    {
+      "type": "Label",
+      "caption": "Update Settings"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "UpdateInterval",
+      "caption": "Update Interval (seconds)",
+      "minValue": 10,
+      "maxValue": 3600,
+      "digits": 0
+    },
+    {
+      "type": "CheckBox",
+      "name": "EarlyMorningUpdate",
+      "caption": "Update yesterday values early morning"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "EarlyMorningWindow",
+      "caption": "Early morning window (seconds)",
+      "minValue": 60,
+      "maxValue": 3600,
+      "digits": 0
+    },
+    {
+      "type": "Label",
+      "caption": "Monitored Variables"
+    },
+    {
+      "type": "List",
+      "name": "Variables",
+      "caption": "Variables",
+      "rowCount": 10,
+      "add": true,
+      "delete": true,
+      "columns": [
+        {
+          "name": "Name",
+          "caption": "Name",
+          "width": "150px"
+        },
+        {
+          "name": "VariableId",
+          "caption": "Source Variable",
+          "width": "200px"
+        },
+        {
+          "name": "YesterdayTarget",
+          "caption": "Yesterday Target",
+          "width": "150px"
+        },
+        {
+          "name": "TodayTarget",
+          "caption": "Today Target",
+          "width": "150px"
+        },
+        {
+          "name": "Type",
+          "caption": "Type",
+          "width": "100px"
+        }
+      ],
+      "values": []
+    }
+  ],
+  "actions": [
+    {
+      "type": "Button",
+      "caption": "Update Now",
+      "onClick": "VAA_Update($id);"
+    }
+  ]
+}
