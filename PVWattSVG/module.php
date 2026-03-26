@@ -60,6 +60,9 @@ class PVWattSVG extends IPSModule
         }
     }
 
+    /**
+     * @return void
+     */
     public function UpdateSvgTimer() {
         if($this->ReadPropertyFloat('TotalDCPVPower') > 0) {
             $this->SetTimerInterval('UpdateSvg', $this->GetIntervalTime());
@@ -69,6 +72,10 @@ class PVWattSVG extends IPSModule
         }
     }
 
+    /**
+     * @param string $Ident
+     * @param mixed $Value
+     */
     public function RequestAction($Ident, $Value) {
         switch ($Ident) {
             case 'DarkMode':
@@ -78,6 +85,10 @@ class PVWattSVG extends IPSModule
                 break;
         }
     }
+
+    /**
+     * @return string
+     */
     public function GetVisualizationTile() {
         $initialHandling = '<script>handleMessage(' . json_encode($this->PrintSvg()) . ')</script>';
 //        $this->SendDebug('Debug', 'GetVisualizationTile this Debug', 0);

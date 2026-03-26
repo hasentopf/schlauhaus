@@ -9,6 +9,7 @@ class EnergyMonitorGraphic extends IPSModule
     use Schlauhaus;
 
     private const ROUND_DECIMALS = 2;
+    private const ROUND_FLOATS = 1;
 
     public function Create()
     {
@@ -36,43 +37,15 @@ class EnergyMonitorGraphic extends IPSModule
 
     public function RequestAction($ident, $value)
     {
-        switch ($ident) {
-            case 'Update':
-                $this->UpdateData();
-                break;
-            default:
-                throw new Exception('Invalid ident');
-        }
-    }
-
-    public function Update()
-    {
-        $this->UpdateData();
-    }
-
-    private function UpdateData()
-    {
 
     }
 
     private function generateJS()
     {
-        $consumption_values = [
-            ['id' => 49614, 'js_id' => 'bezug_netz_heute'],
-            ['id' => 53459, 'js_id' => 'pv_erzeugung_heute'],
-        ];
-        $data = [];
-        foreach ($consumption_values as $value) {
-            $data[$value['js_id']] = GetValueFloat($value['id']);
-        }
-        $tempVar = $this->ReadPropertyInteger('TemperatureVariable');
-        if ($tempVar > 0) {
-            $data['temperatur'] = GetValueFloat($tempVar);
-        }
-        return json_encode($data);
+        return $this->GenerateData();
     }
 
-    public function GetData()
+    public function GenerateData()
     {
         $consumption_values = [
             ['id' => 49614, 'js_id' => 'bezug_netz_heute'],
@@ -80,11 +53,11 @@ class EnergyMonitorGraphic extends IPSModule
         ];
         $data = [];
         foreach ($consumption_values as $value) {
-            $data[$value['js_id']] = GetValueFloat($value['id']);
+            $data[$value['js_id']] = GetValueFloat($value['id']) . ' kWh';
         }
-        $tempVar = $this->ReadPropertyInteger('TemperatureVariable');
+        $tempVar = $this->ReadPropertyFloat('TemperatureVariable');
         if ($tempVar > 0) {
-            $data['temperatur'] = GetValueFloat($tempVar);
+            $data['temperatur'] = round(GetValueFloat($tempVar), self::ROUND_FLOATS) . '°C';
         }
         return json_encode($data);
     }
@@ -92,7 +65,7 @@ class EnergyMonitorGraphic extends IPSModule
     public function GetDataProvider()
     {
         return [
-            'DataID' => '{3708, ' . $this->InstanceID . ', "GetData"}',
+            'DataID' => '{3708, ' . $this->InstanceID . ', "GenerateData"}',
             'JSData' => $this->generateJS()
         ];
     }
@@ -122,7 +95,7 @@ class EnergyMonitorGraphic extends IPSModule
     }
 
     function reloadData() {
-        IPS_RunScriptChannel({ "DataID": "{3708, ' . $this->InstanceID . ', GetData}", "Callback": "handleMessage" });
+        IPS_RunScriptChannel({ "DataID": "{3708, ' . $this->InstanceID . ', GenerateData}", "Callback": "handleMessage" });
     }
 
     window.onload = function () {
