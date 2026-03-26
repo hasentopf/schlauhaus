@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/schlauhaus.php';
 
-class EnergyMonitor extends IPSModule
+class EnergyMonitorGraphic extends IPSModule
 {
     use Schlauhaus;
 

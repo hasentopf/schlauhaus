@@ -3,7 +3,7 @@
   "name": "EnergyMonitorGraphic",
   "url": "https://github.com/hasentopf/schlauhaus/",
   "vendor": "",
-  "aliases": ["Energie Monitor", "Energie Dashboard", "Energieverbrauch", "Energieerzeugung"],
+  "aliases": ["Energie Monitor Graphic"],
   "parentRequirements": [],
   "childRequirements": [],
   "implemented": [],
