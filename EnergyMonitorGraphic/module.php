@@ -16,6 +16,7 @@ class EnergyMonitorGraphic extends IPSModule
         parent::Create();
 
         $this->RegisterPropertyFloat('TemperatureVariable', 0);
+        $this->RegisterPropertyInteger('BatterySocVariable', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
 
         $this->SetVisualizationType(1);
@@ -49,6 +50,7 @@ class EnergyMonitorGraphic extends IPSModule
     {
         $consumption_values = [
             ['id' => 49614, 'js_id' => 'bezug_netz_heute'],
+            ['id' => 43577, 'js_id' => 'bezug_akku_heute'],
             ['id' => 53459, 'js_id' => 'pv_erzeugung_heute'],
         ];
         $data = [];
@@ -58,6 +60,10 @@ class EnergyMonitorGraphic extends IPSModule
         $tempVar = $this->ReadPropertyFloat('TemperatureVariable');
         if ($tempVar > 0) {
             $data['temperatur'] = round(GetValueFloat($tempVar), self::ROUND_FLOATS) . '°C';
+        }
+        $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
+        if ($batterySocVar > 0) {
+            $data['akku_stand'] = round(GetValueInteger($batterySocVar), self::ROUND_DECIMALS) . '%';
         }
         return json_encode($data);
     }
@@ -79,7 +85,8 @@ class EnergyMonitorGraphic extends IPSModule
         bezug_netz_heute: document.getElementById("bezug_netz_heute"),
         bezug_akku_heute: document.getElementById("bezug_akku_heute"),
         einspeisung_heute: document.getElementById("einspeisung_heute"),
-        temperatur: document.getElementById("temperatur")
+        temperatur: document.getElementById("temperatur"),
+        akku_stand: document.getElementById("akku_stand")
     };
 
     function handleMessage(data) {

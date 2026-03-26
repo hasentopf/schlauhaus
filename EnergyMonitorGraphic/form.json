@@ -4,6 +4,11 @@
       "type": "SelectVariable",
       "caption": "Außentemperatur",
       "name": "TemperatureVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Akku-Stand",
+      "name": "BatterySocVariable"
     }
   ],
   "actions": [
