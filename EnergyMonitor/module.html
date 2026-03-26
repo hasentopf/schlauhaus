@@ -3,64 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            padding: 0 1rem;
-            margin: 3rem 0 0 0;
-            background: linear-gradient(180deg, rgb(84, 169, 245) 0%, rgb(84, 169, 245) 25%, rgb(204, 45, 246) 75%, rgb(238, 122, 141) 100%);
-            color: #303a3e;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-            background-color: #ffffff;
-        }
-        table td.verbrauch {
-            background-color: rgba(255, 255, 255, 0.85);
-            background-repeat: no-repeat;
-            background-position: right center;
-            background-size: auto 80%;
-            background-image: url('https://schlauhaus.com/schlauhaus/Schlauhaus-Haus.svg');
-        }
-        table td.ertrag {
-            background-color: rgba(255, 255, 255, 0.85);
-            background-repeat: no-repeat;
-            background-position: right center;
-            background-size: auto 80%;
-            background-image: url('https://schlauhaus.com/schlauhaus/Schlauhaus-Solaranlage.svg');
-        }
-        table th.verbrauch {
-            background-color: rgba(255, 255, 255, 0.9);
-            background-repeat: no-repeat;
-            background-position: right center;
-            background-size: auto 80%;
-            background-image: url('https://schlauhaus.com/schlauhaus/Schlauhaus-Haus.svg');
-        }
-        table th.ertrag {
-            background-color: rgba(255, 255, 255, 0.9);
-            background-repeat: no-repeat;
-            background-position: right center;
-            background-size: auto 80%;
-            background-image: url('https://schlauhaus.com/schlauhaus/Schlauhaus-Solaranlage.svg');
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid rgb(228, 228, 228);
-            color: #141c5f;
-        }
-        th {
-            background-color: rgba(31, 64, 104, 0.25);
-            color: #141c5f;
-        }
-        tr:hover td {
-            color: #F0F0F0;
-            background-color: #141c5f;
-        }
+        svg { border: 1px solid #444; display: block; margin: 20px auto; }
+        text { font: bold 20px "Noto Sans", sans-serif; fill: #fff; }
     </style>
 </head>
 <body>
-{{CONTENT}}
+<svg id="svgRoot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500px" height="500px">
+    <g stroke="#121c63" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"
+       transform="matrix(1.240113, 0, 0, 1.240113, 150.004364, 236.614243)" style="">
+        <g fill="none">
+            <path d="m64.344 72.577h-31.988c-.276 0-.5-.224-.5-.5v-44.154c0-.276.224-.5.5-.5h31.988c.276 0 .5.224.5.5v44.153c0 .277-.224.501-.5.501z"/>
+            <path d="m58.4 48.906h-20.099c-.125 0-.226-.101-.226-.226v-16.014c0-.125.101-.226.226-.226h20.099c.125 0 .226.101.226.226v16.015c-.001.124-.102.225-.226.225z"/>
+            <path d="m38.075 53.299h20.55"/>
+            <path d="m55.028 41.581h-13.356c-.053 0-.096-.043-.096-.096v-5.543c0-.053.043-.096.096-.096h13.356c.053 0 .096.043.096.096v5.543c0 .053-.043.096-.096.096z"/>
+            <circle cx="41.626" cy="45.176" r=".058"/>
+            <circle cx="46.109" cy="45.176" r=".058"/>
+            <circle cx="50.592" cy="45.176" r=".058"/>
+            <circle cx="55.074" cy="45.176" r=".058"/>
+        </g>
+        <path d="m64.844 35.256h3.299v5.015h-3.299z" fill="#ffff5f"/>
+        <path d="m64.844 44.526h3.299v5.015h-3.299z" fill="#ffff5f"/>
+        <path d="m47.148 56.972h3.592l-1.347 3.442h4.191l-5.538 9.054.749-6.211h-4.186z" fill="#fff"/>
+        <path d="M 31.856 32.421 L 58.599 32.421 L 58.599 72.577 L 64.344 72.577 L 64.844 72.077 L 64.844 27.923 L 64.344 27.423 L 32.356 27.423 L 31.856 32.421 Z"
+              fill="#ffff5f" style="stroke-width: 1.5;"/>
+    </g>
+    <g style="" transform="matrix(1, 0, 0, 1, 64.470795, -22.162041)">
+        <path d="M 88.536 241.977 L 248.557 241.977 C 255.872 241.977 261.801 248.076 261.801 255.599 L 261.801 353.469 L 274.278 353.469 L 274.185 275.587 L 274.185 232.453 L 272.861 231.091 L 88.536 231.091 L 88.536 241.977 Z"
+              fill="#ffff5f" style="stroke-width: 1;"/>
+        <path d="M 329.755 161.667 C 329.755 161.667 344.135 158.957 350.902 168.43 C 356.625 176.442 383.646 215.917 391.845 227.903 C 393.39 230.161 394.209 232.823 394.209 235.559 L 394.209 353.467 L 408.454 353.467 L 408.126 230.131 L 344.404 143.241 L 329.755 161.667 Z"
+              fill="#ffff5f" style="stroke-width: 1;"/>
+        <g style="fill: none; stroke: rgb(18, 28, 99); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10;"
+           transform="matrix(1, 0, 0, 1, 55.560146, 108.182907)">
+            <path d="m288.844 35.06 63.721 86.89.328 123.336h-133.969v-123.336z"/>
+            <path d="m219.226 122.453v122.832h-187.688v-122.941s187.797.218 187.688.109z"/>
+            <path d="m31.058 122.411h188.331l69.455-87.351-184.842.239z"/>
+            <path d="m109.774 45.27h152.709l-54.052 66.646h-152.708z"/>
+            <path d="m247.068 63.112h-150.413"/>
+            <path d="m227.087 87.351h-150.413"/>
+            <path d="m92.256 111.644 52.736-66.166" style=""/>
+            <path d="m171.076 111.644 52.736-66.166"/>
+            <path d="m132.097 111.644 52.736-66.166" style=""/>
+        </g>
+    </g>
+    <g style="fill: none; stroke: rgb(18, 28, 99); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10;"
+       transform="matrix(1.585355, 0, 0, 1.585355, 329.047791, -28.378738)"><title>Sonne</title>
+        <circle cx="50" cy="50" r="6.375"/>
+        <path d="m50 34.09v-7.744"/>
+        <path d="m38.75 38.75-5.476-5.476"/>
+        <path d="m34.09 50h-7.744"/>
+        <path d="m50 65.91v7.744"/>
+        <path d="m38.75 61.25-5.476 5.476"/>
+        <path d="m61.25 38.75 5.476-5.476"/>
+        <path d="m65.91 50h7.744"/>
+        <path d="m61.25 61.25 5.476 5.476"/>
+        <path d="M 56.374 50.007 C 56.374 52.82 54.564 55.199 52.035 56.052 C 52.244 55.409 52.364 54.735 52.364 54.017 C 52.364 50.501 49.506 47.643 45.99 47.643 C 45.272 47.643 44.599 47.763 43.955 47.972 C 44.808 45.443 47.187 43.618 50 43.618 C 53.531 43.618 56.374 46.476 56.374 50.007 Z"
+              fill="#ffff5f" style="stroke-width: 1;"/>
+    </g>
+    <g stroke="#121c63" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"
+       transform="matrix(0, -2.140961, 2.140961, 0, 358.812103, 361.926056)" style="transform-origin: 50px 49.9995px;">
+        <title>Akku</title>
+        <path d="m67.449 38.434v23.131c0 .113-.092.205-.205.205h-40.393c-.113 0-.205-.092-.205-.205v-23.131c0-.113.092-.205.205-.205h40.394c.112 0 .204.092.204.205z"
+              fill="#fff"/>
+        <path d="m73.354 44.217v11.566c0 .036-.029.064-.064.064h-5.841v-11.694h5.841c.035 0 .064.029.064.064z" fill="#fff"/>
+        <g fill="#ffff5f">
+            <path d="m31.009 42.881h8.586v14.237h-8.586z"/>
+            <path d="m42.798 42.881h8.586v14.237h-8.586z"/>
+            <path d="m54.586 42.881h8.586v14.237h-8.586z"/>
+        </g>
+    </g>
+    <path d="M 368.939 280.308 L 423.298 280.308 C 428.356 280.308 432.457 284.409 432.457 289.467 L 432.457 321.62 L 442.98 321.62 L 443.895 320.704 L 443.895 273.905 L 442.98 272.989 L 368.939 272.989 L 368.939 280.308 Z"
+          fill="#ffff5f" style="stroke-width: 1;"/>
+    <g stroke="#121c63" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"
+       transform="matrix(1.314355, 0, 0, 1.314355, 340.720886, 231.607758)" style="">
+        <g fill="none">
+            <path d="m21.71 31.484h56.82v37.031h-56.82z"/>
+            <path d="m77.981 72.368h-55.721c-.304 0-.55-.246-.55-.55v-43.636c0-.304.246-.55.55-.55h55.721c.304 0 .55.246.55.55v43.636c0 .304-.247.55-.55.55z"/>
+            <path d="m58.204 40.535h14.582"/>
+            <path d="m58.204 45.285h14.582"/>
+            <path d="m58.204 50.035h14.582"/>
+            <path d="m58.204 54.785h14.582"/>
+            <path d="m58.204 59.536h14.582"/>
+        </g>
+        <circle cx="39.456" cy="49.774" fill="#fff" r="12.476"/>
+        <circle cx="39.456" cy="49.774" fill="#fff" r="3.099"/>
+        <g fill="none">
+            <path d="m39.456 46.675v-9.377"/>
+            <path d="m37.265 47.583-6.63-6.63"/>
+            <path d="m36.358 49.774h-9.377"/>
+            <path d="m39.456 52.873v9.377"/>
+            <path d="m37.265 51.965-6.63 6.631"/>
+            <path d="m41.647 51.965 6.631 6.631"/>
+            <path d="m42.555 49.774h9.377"/>
+            <path d="m41.647 47.583 6.631-6.63"/>
+        </g>
+    </g>
+    <g transform="matrix(1.703365, 0, 0, 1.703365, -524.693909, -321.764679)"><title>Netz</title>
+        <path d="M 369.987 249.027 L 374.472 241.7 C 374.733 241.274 374.426 240.727 373.927 240.727 L 369.672 240.727 C 369.085 240.727 368.683 240.137 368.896 239.591 L 370.711 234.949 C 370.875 234.53 370.566 234.077 370.116 234.077 L 366.248 234.077 L 367.538 230.877 L 374.478 230.877 L 371.878 237.537 L 379.968 237.537 L 369.268 255.027 L 369.987 249.027 Z"
+              fill="#ffff5f" style="stroke-width: 1;"/>
+        <g stroke="#121c63" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"
+           transform="matrix(1, 0, 0, 1, 317.282806, 206.772369)">
+            <path d="m50.249 24.109h6.941l-2.603 6.651h8.097l-10.7 17.496 1.446-12.001h-8.088z" fill="none"/>
+            <circle cx="23.556" cy="52.777" fill="#ffff5f" r="2.938"/>
+            <path d="m23.556 29.129c6.005 15.089 0 20.71 0 20.71s-6.005-5.621 0-20.71z" fill="none"/>
+            <path d="m3.076 64.601c10.065-12.745 17.935-10.355 17.935-10.355s-1.865 8.011-17.935 10.355z" fill="none"/>
+            <path d="m44.036 64.601c-16.07-2.344-17.936-10.355-17.936-10.355s7.87-2.39 17.936 10.355z" fill="none"/>
+            <path d="m14.427 86.031h17.933" fill="none"/>
+            <path d="m56.93 86.497h34.207" fill="none"/>
+            <path d="m25.349 86.031h-3.586l.485-30.316h2.615z" fill="#ffff5f"/>
+            <g fill="none">
+                <path d="m59.439 79.249h14.869l-1.28-10.191h-12.309z"/>
+                <path d="m77.446 81.192h12.255l-1.055-8.178h-10.145z"/>
+                <path d="m66.923 79.249v6.741"/>
+                <path d="m83.483 81.193v5.304"/>
+                <path d="m60.088 74.079h13.204"/>
+                <path d="m77.992 76.962h10.72"/>
+                <path d="m81.368 80.909.722-7.895"/>
+                <path d="m85.598 80.909-.722-7.895"/>
+                <path d="m63.973 79.249 1.034-10.191"/>
+                <path d="m70.024 79.249-1.033-10.191"/>
+            </g>
+        </g>
+    </g>
+    <path d="M 48.502 215.163 H 80.814 L 80.814 205.921 L 98.502 218.243 L 80.814 230.565 L 80.814 221.324 H 48.502 V 215.163 Z"
+          style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); transform-box: fill-box; transform-origin: 50% 50%;"
+          transform="matrix(0.00003, 1, -1, 0.00003, 136.54065, 19.894258)"/>
+    <path d="M 48.502 215.163 H 80.814 L 80.814 205.921 L 98.502 218.243 L 80.814 230.565 L 80.814 221.324 H 48.502 V 215.163 Z"
+          style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 1; transform-origin: 73.502px 218.243px;"
+          transform="matrix(1, -0.00003, 0.00003, 1, 197.156114, 181.026024)"/>
+    <path d="M 48.502 215.163 H 80.814 L 80.814 205.921 L 98.502 218.243 L 80.814 230.565 L 80.814 221.324 H 48.502 V 215.163 Z"
+          style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 1; transform-origin: 73.502px 218.243px;"
+          transform="matrix(-1, 0.00003, -0.00003, -1, 265.019087, 215.455422)"/>
+    <path d="M 48.502 215.163 H 80.814 L 80.814 205.921 L 98.502 218.243 L 80.814 230.565 L 80.814 221.324 H 48.502 V 215.163 Z"
+          style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 1; transform-origin: 73.502px 218.243px;"
+          transform="matrix(1, -0.000029, 0.00003, 1, 78.251558, 84.846433)"/>
+    <path d="M 48.502 215.163 H 80.814 L 80.814 205.921 L 98.502 218.243 L 80.814 230.565 L 80.814 221.324 H 48.502 V 215.163 Z"
+          style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 1; transform-origin: 73.502px 218.243px;"
+          transform="matrix(-0.00003, -1, 1, -0.00003, 17.133377, 25.855292)"/>
+    <g style="" transform="matrix(1, 0, 0, 1, -31.137283, -22.508242)">
+        <path d="M 175.652 451.928 L 175.612 470.183 L 169.494 470.183 L 169.514 458.066 C 169.514 449.789 166.236 441.851 160.377 435.994 L 144.962 420.579 C 139.104 414.741 131.167 411.441 122.909 411.441 L 99.758 411.441 C 99.178 411.441 98.618 411.503 98.078 411.623 C 98.858 408.023 102.057 405.305 105.896 405.305 L 129.028 405.305 C 137.306 405.305 145.243 408.604 151.101 414.461 L 166.516 429.878 C 172.374 435.714 175.652 443.651 175.652 451.928 Z"
+              fill="#ffff5f" style="stroke-width: 1;"/>
+        <path d="M 60.303 422.465 L 65.143 422.465 C 68.523 422.465 71.273 425.215 71.273 428.595 C 71.273 431.975 68.523 434.725 65.143 434.725 L 60.303 434.725 L 60.303 422.465 Z"
+              fill="#fff" style="stroke-width: 1;"/>
+        <g stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+           transform="matrix(1.788096, 0, 0, 1.788096, 34.476097, 354.642029)">
+            <g fill="none">
+                <path d="m11.354 39.717h2.821" stroke="#fff"/>
+                <path d="m11.354 43.002h3.09" stroke="#fff"/>
+                <path d="m14.444 37.931h2.707c1.89 0 3.428 1.538 3.428 3.428s-1.538 3.428-3.428 3.428h-2.707z" stroke="#121c63"
+                      stroke-width="1.5"/>
+                <path d="m11.354 39.717h2.821" stroke="#121c63" stroke-width="1.5"/>
+                <path d="m11.354 43.002h3.09" stroke="#121c63" stroke-width="1.5"/>
+                <path d="m78.933 64.613h-43.464v-31.803c0-2.47 2.002-4.473 4.473-4.473h12.943c4.628 0 9.067 1.839 12.34 5.111l8.62 8.62c3.273 3.273 5.111 7.711 5.111 12.34z"
+                      stroke="#121c63" stroke-width="1.5"/>
+            </g>
+            <circle cx="74.204" cy="64.613" fill="#fff" r="7.055" stroke="#121c63" stroke-width="1.5"/>
+            <circle cx="40.147" cy="64.613" fill="#fff" r="7.055" stroke="#121c63" stroke-width="1.5"/>
+        </g>
+        <path d="M 179.778 470.155 C 179.778 475.515 176.459 480.073 171.761 481.913 C 172.321 480.473 172.641 478.914 172.641 477.294 C 172.641 470.336 167.002 464.679 160.026 464.679 C 158.406 464.679 156.846 464.979 155.427 465.559 C 157.266 460.881 161.824 457.56 167.162 457.56 C 174.119 457.56 179.778 463.198 179.778 470.155 Z"
+              fill="#ffff5f" style="stroke-width: 1;"/>
+        <path d="M 118.878 470.155 C 118.878 475.515 115.559 480.073 110.859 481.913 C 111.419 480.473 111.739 478.914 111.739 477.294 C 111.739 470.336 106.102 464.679 99.124 464.679 C 97.504 464.679 95.946 464.979 94.526 465.559 C 96.366 460.881 100.923 457.56 106.261 457.56 C 113.221 457.56 118.878 463.198 118.878 470.155 Z"
+              fill="#ffff5f" style="stroke-width: 1;"/>
+        <g style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;fill:none;stroke:#121c63;stroke-width:1.5"
+           transform="matrix(1.788096, 0, 0, 1.788096, 34.476097, 354.642029)">
+            <circle cx="74.204" cy="64.613" r="7.055"/>
+            <circle cx="40.147" cy="64.613" r="7.055"/>
+            <path d="m51.721 33.109v15.704c0 .309.25.559.559.559h17.891c1.448 0 2.199-1.727 1.212-2.786l-10.657-11.44c-1.542-1.656-3.703-2.596-5.966-2.596h-2.48c-.308 0-.559.251-.559.559z"/>
+            <circle cx="41.747" cy="50.05" r="2.385"/>
+            <path d="m20.579 41.36c1.063 0 4.253-.89 4.253 2.406v10.472c0 1.381 1.119 2.5 2.5 2.5s2.5-1.119 2.5-2.5v-1.93c0-1.235 1.001-2.236 2.236-2.236h9.678"/>
+        </g>
+    </g>
+    <text style="fill: rgb(51, 51, 51); font-size: 20px; white-space: pre;" font-family="Noto Sans, Helvetica, Arial, sans-serif"
+          x="233.152" y="242.129" id="pv_erzeugung_heute">20,5kWh
+    </text>
+    <text style="fill: rgb(51, 51, 51); font-size: 20px; white-space: pre;" font-family="Noto Sans, Helvetica, Arial, sans-serif" x="306.95"
+          y="406.354">22,5kWh
+    </text>
+    <text style="fill: rgb(51, 51, 51); font-size: 20px; white-space: pre;" font-family="Noto Sans, Helvetica, Arial, sans-serif"
+          x="213.528" y="440.719" id="bezug_akku_heute">24,5kWh
+    </text>
+    <text style="fill: rgb(51, 51, 51); font-size: 20px; white-space: pre;" font-family="Noto Sans, Helvetica, Arial, sans-serif" x="34.291"
+          y="310.791" id="bezug_netz_heute">23,5kWh
+    </text>
+    <text style="fill: rgb(51, 51, 51); font-size: 20px; white-space: pre;" font-family="Noto Sans, Helvetica, Arial, sans-serif" x="53.702"
+          y="206.167" id="einspeisung_heute">20,5kWh
+    </text>
+    <text style="fill: rgb(51, 51, 51); font-size: 20px; white-space: pre; stroke-width: 1;" font-family="Noto Sans, Helvetica, Arial, sans-serif"
+          x="316.897" y="56.123" id="temperatur">12°C
+    </text>
+</svg>
+
+
 </body>
 </html>

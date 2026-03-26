@@ -1,110 +1,13 @@
 {
   "elements": [
     {
-      "type": "Label",
-      "caption": "Archive Configuration"
-    },
-    {
-      "type": "SelectInstance",
-      "name": "ArchiveId",
-      "caption": "Archive Instance",
-      "moduleID": "{43192F0B-135B-4CE7-A0A7-1475603F3060}"
-    },
-    {
-      "type": "Label",
-      "caption": "Update Settings"
-    },
-    {
-      "type": "NumberSpinner",
-      "name": "UpdateInterval",
-      "caption": "Update Interval (seconds)",
-      "minValue": 10,
-      "maxValue": 3600,
-      "digits": 0
-    },
-    {
-      "type": "CheckBox",
-      "name": "EarlyMorningUpdate",
-      "caption": "Update yesterday values early morning"
-    },
-    {
-      "type": "NumberSpinner",
-      "name": "EarlyMorningWindow",
-      "caption": "Early morning window (seconds)",
-      "minValue": 60,
-      "maxValue": 3600,
-      "digits": 0
-    },
-    {
-      "type": "Label",
-      "caption": "Monitored Variables"
-    },
-    {
-      "type": "List",
-      "name": "Variables",
-      "caption": "Variables",
-      "rowCount": 10,
-      "add": true,
-      "delete": true,
-      "columns": [
-        {
-          "name": "Title",
-          "caption": "Energy Name",
-          "width": "150px",
-          "add": "",
-          "edit": {
-            "type": "ValidationTextBox"
-          }
-        },
-        {
-          "name": "VariableId",
-          "caption": "Source Variable",
-          "width": "200px",
-          "add": 0,
-          "edit": {
-            "type": "SelectVariable"
-          }
-        },
-        {
-          "name": "YesterdayTarget",
-          "caption": "Yesterday Target",
-          "width": "150px",
-          "add": 0,
-          "edit": {
-            "type": "SelectVariable"
-          }
-        },
-        {
-          "name": "TodayTarget",
-          "caption": "Today Target",
-          "width": "150px",
-          "add": 0,
-          "edit": {
-            "type": "SelectVariable"
-          }
-        },
-        {
-          "name": "Type",
-          "caption": "Type",
-          "width": "100px",
-          "add": "verbrauch",
-          "edit": {
-            "type": "Select",
-            "options": [
-              { "caption": "Verbrauch", "value": "verbrauch" },
-              { "caption": "Ertrag", "value": "ertrag" }
-            ]
-          }
-        }
-      ],
-      "values": []
+      "type": "SelectVariable",
+      "caption": "Außentemperatur",
+      "name": "TemperatureVariable"
     }
   ],
   "actions": [
-    {
-      "type": "Button",
-      "caption": "Update Now",
-      "onClick": "PVW_Update($id);"
-    }
+  ],
+  "status": [
   ]
 }

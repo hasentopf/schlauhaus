@@ -1,6 +1,6 @@
 {
   "id": "{02E844AC-2187-45A9-25A0-47F9192850F4}",
-  "name": "EnergyMonitor",
+  "name": "EnergyMonitorGraphic",
   "url": "https://github.com/hasentopf/schlauhaus/",
   "vendor": "",
   "aliases": ["Energie Monitor", "Energie Dashboard", "Energieverbrauch", "Energieerzeugung"],
@@ -8,5 +8,5 @@
   "childRequirements": [],
   "implemented": [],
   "type": 3,
-  "prefix": "PVW"
+  "prefix": "EMG"
 }
