@@ -17,6 +17,7 @@ class EnergyMonitorGraphic extends IPSModule
 
         $this->RegisterPropertyFloat('TemperatureVariable', 0);
         $this->RegisterPropertyInteger('BatterySocVariable', 0);
+        $this->RegisterPropertyInteger('eCarVariable', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
 
         $this->SetVisualizationType(1);
@@ -49,9 +50,9 @@ class EnergyMonitorGraphic extends IPSModule
     public function GenerateData()
     {
         $consumption_values = [
-            ['id' => 49614, 'js_id' => 'bezug_netz_heute'],
-            ['id' => 43577, 'js_id' => 'bezug_akku_heute'],
-            ['id' => 53459, 'js_id' => 'pv_erzeugung_heute'],
+            ['id' => 49614, 'js_id' => 'bezug_netz'],
+            ['id' => 43577, 'js_id' => 'bezug_akku'],
+            ['id' => 53459, 'js_id' => 'pv_erzeugung'],
         ];
         $data = [];
         foreach ($consumption_values as $value) {
@@ -64,6 +65,11 @@ class EnergyMonitorGraphic extends IPSModule
         $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
         if ($batterySocVar > 0) {
             $data['akku_stand'] = round(GetValueInteger($batterySocVar), self::ROUND_DECIMALS) . '%';
+        }
+        $eCarVar = $this->ReadPropertyInteger('eCarVariable');
+        if ($eCarVar > 0) {
+            // Add eCar consumption data if variable is configured
+            $data['verbrauch_eAuto'] = GetValueFloat($eCarVar) . ' kWh';
         }
         return json_encode($data);
     }
@@ -79,13 +85,33 @@ class EnergyMonitorGraphic extends IPSModule
     public function GetVisualizationTile()
     {
         $module = file_get_contents(__DIR__ . '/module.html');
+        
+        // Check if battery and eCar variables are configured
+        $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
+        $eCarVar = $this->ReadPropertyInteger('eCarVariable');
+        
+        // Generate CSS to show/hide SVG elements based on configuration
+        $customCSS = '<style>';
+        if ($batterySocVar > 0) {
+            $customCSS .= '#Akku { display: block !important; }';
+        }
+        if ($eCarVar > 0) {
+            $customCSS .= '#eAuto { display: block !important; }';
+        }
+        $customCSS .= '</style>';
+        
+        // Insert custom CSS before the closing </head> tag
+        $module = str_replace('</head>', $customCSS . '</head>', $module);
+        
         $script = '<script>
     const elementMap = {
-        pv_erzeugung_heute: document.getElementById("pv_erzeugung_heute"),
-        bezug_netz_heute: document.getElementById("bezug_netz_heute"),
-        bezug_akku_heute: document.getElementById("bezug_akku_heute"),
-        einspeisung_heute: document.getElementById("einspeisung_heute"),
+        pv_erzeugung: document.getElementById("pv_erzeugung"),
+        pv_einspeisung: document.getElementById("pv_einspeisung"),
+        bezug_netz_heute: document.getElementById("bezug_netz"),
+        bezug_akku_heute: document.getElementById("bezug_akku"),
         temperatur: document.getElementById("temperatur"),
+        verbrauch_heizung: document.getElementById("verbrauch_heizung"),
+        verbrauch_eAuto: document.getElementById("verbrauch_eAuto"),
         akku_stand: document.getElementById("akku_stand")
     };
 
