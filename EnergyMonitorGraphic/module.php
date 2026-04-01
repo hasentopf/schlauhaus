@@ -17,7 +17,8 @@ class EnergyMonitorGraphic extends IPSModule
 
         $this->RegisterPropertyFloat('TemperatureVariable', 0);
         $this->RegisterPropertyInteger('BatterySocVariable', 0);
-        $this->RegisterPropertyInteger('eCarVariable', 0);
+        $this->RegisterPropertyFloat('eCarConsumptionVariable', 0);
+        $this->RegisterPropertyFloat('HeatingConsumptionVariable', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
 
         $this->SetVisualizationType(1);
@@ -58,18 +59,21 @@ class EnergyMonitorGraphic extends IPSModule
         foreach ($consumption_values as $value) {
             $data[$value['js_id']] = GetValueFloat($value['id']) . ' kWh';
         }
-        $tempVar = $this->ReadPropertyFloat('TemperatureVariable');
-        if ($tempVar > 0) {
-            $data['temperatur'] = round(GetValueFloat($tempVar), self::ROUND_FLOATS) . '°C';
+        $temperatureVar = $this->ReadPropertyFloat('TemperatureVariable');
+        if ($temperatureVar > 0) {
+            $data['temperatur'] = round(GetValueFloat($temperatureVar), self::ROUND_FLOATS) . '°C';
         }
         $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
         if ($batterySocVar > 0) {
             $data['akku_stand'] = round(GetValueInteger($batterySocVar), self::ROUND_DECIMALS) . '%';
         }
-        $eCarVar = $this->ReadPropertyInteger('eCarVariable');
+        $eCarVar = $this->ReadPropertyFloat('eCarConsumptionVariable');
         if ($eCarVar > 0) {
-            // Add eCar consumption data if variable is configured
-            $data['verbrauch_eAuto'] = GetValueFloat($eCarVar) . ' kWh';
+            $data['verbrauch_eAuto'] = round(GetValueFloat($eCarVar), self::ROUND_DECIMALS) . 'kWh';
+        }
+        $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
+        if ($heatingVar > 0) {
+            $data['verbrauch_heizung'] = round(GetValueFloat($heatingVar), self::ROUND_DECIMALS) . 'kWh';
         }
         return json_encode($data);
     }
@@ -85,11 +89,12 @@ class EnergyMonitorGraphic extends IPSModule
     public function GetVisualizationTile()
     {
         $module = file_get_contents(__DIR__ . '/module.html');
-        
+
         // Check if battery and eCar variables are configured
         $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
-        $eCarVar = $this->ReadPropertyInteger('eCarVariable');
-        
+        $eCarVar = $this->ReadPropertyInteger('eCarConsumptionVariable');
+        $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
+
         // Generate CSS to show/hide SVG elements based on configuration
         $customCSS = '<style>';
         if ($batterySocVar > 0) {
@@ -98,11 +103,14 @@ class EnergyMonitorGraphic extends IPSModule
         if ($eCarVar > 0) {
             $customCSS .= '#eAuto { display: block !important; }';
         }
+        if ($heatingVar > 0) {
+            $customCSS .= '#heizung { display: block !important; }';
+        }
         $customCSS .= '</style>';
-        
+
         // Insert custom CSS before the closing </head> tag
         $module = str_replace('</head>', $customCSS . '</head>', $module);
-        
+
         $script = '<script>
     const elementMap = {
         pv_erzeugung: document.getElementById("pv_erzeugung"),

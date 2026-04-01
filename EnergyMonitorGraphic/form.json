@@ -9,6 +9,16 @@
       "type": "SelectVariable",
       "caption": "Akku-Stand",
       "name": "BatterySocVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "eAuto Verbrauch",
+      "name": "eCarConsumptionVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Heizungsverbrauch",
+      "name": "HeatingConsumptionVariable"
     }
   ],
   "actions": [
