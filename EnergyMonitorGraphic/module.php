@@ -76,15 +76,15 @@ class EnergyMonitorGraphic extends IPSModule
             $data['bezug_akku'] = GetValueFloat($batteryVar) . ' kWh';
         }
         $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
-        if ($batterySocVar > 0) {
+        if (is_integer($batterySocVar)) {
             $data['akku_stand'] = round(GetValueInteger($batterySocVar), self::ROUND_DECIMALS) . '%';
         }
         $eCarVar = $this->ReadPropertyFloat('eCarConsumptionVariable');
-        if ($eCarVar > 0) {
+        if (is_float($eCarVar)) {
             $data['verbrauch_eAuto'] = round(GetValueFloat($eCarVar), self::ROUND_DECIMALS) . 'kWh';
         }
         $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
-        if ($heatingVar > 0) {
+        if (is_float($heatingVar)) {
             $data['verbrauch_heizung'] = round(GetValueFloat($heatingVar), self::ROUND_DECIMALS) . 'kWh';
         }
         return json_encode($data);
