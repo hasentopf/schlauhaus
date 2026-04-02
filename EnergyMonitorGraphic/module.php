@@ -15,8 +15,8 @@ class EnergyMonitorGraphic extends IPSModule
     {
         parent::Create();
 
-        $this->RegisterPropertyFloat('TemperatureVariable', 0);
         $this->RegisterPropertyInteger('BatterySocVariable', 0);
+        $this->RegisterPropertyFloat('TemperatureVariable', 0);
         $this->RegisterPropertyFloat('eCarConsumptionVariable', 0);
         $this->RegisterPropertyFloat('HeatingConsumptionVariable', 0);
         $this->RegisterPropertyFloat('PVGenerationVariable', 0);
@@ -104,7 +104,7 @@ class EnergyMonitorGraphic extends IPSModule
 
         // Check if battery and eCar variables are configured
         $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
-        $eCarVar = $this->ReadPropertyInteger('eCarConsumptionVariable');
+        $eCarVar = $this->ReadPropertyFloat('eCarConsumptionVariable');
         $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
 
         // Generate CSS to show/hide SVG elements based on configuration
