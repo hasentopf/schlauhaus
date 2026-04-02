@@ -19,6 +19,10 @@ class EnergyMonitorGraphic extends IPSModule
         $this->RegisterPropertyInteger('BatterySocVariable', 0);
         $this->RegisterPropertyFloat('eCarConsumptionVariable', 0);
         $this->RegisterPropertyFloat('HeatingConsumptionVariable', 0);
+        $this->RegisterPropertyFloat('PVGenerationVariable', 0);
+        $this->RegisterPropertyFloat('PVFeedInVariable', 0);
+        $this->RegisterPropertyFloat('BatteryConsumptionVariable', 0);
+        $this->RegisterPropertyFloat('GridConsumptionVariable', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
 
         $this->SetVisualizationType(1);
@@ -50,18 +54,26 @@ class EnergyMonitorGraphic extends IPSModule
 
     public function GenerateData()
     {
-        $consumption_values = [
-            ['id' => 49614, 'js_id' => 'bezug_netz'],
-            ['id' => 43577, 'js_id' => 'bezug_akku'],
-            ['id' => 53459, 'js_id' => 'pv_erzeugung'],
-        ];
         $data = [];
-        foreach ($consumption_values as $value) {
-            $data[$value['js_id']] = GetValueFloat($value['id']) . ' kWh';
-        }
         $temperatureVar = $this->ReadPropertyFloat('TemperatureVariable');
         if ($temperatureVar > 0) {
             $data['temperatur'] = round(GetValueFloat($temperatureVar), self::ROUND_FLOATS) . '°C';
+        }
+        $pvGenVar = $this->ReadPropertyFloat('PVGenerationVariable');
+        if ($pvGenVar > 0) {
+            $data['pv_erzeugung'] = GetValueFloat($pvGenVar) . ' kWh';
+        }
+        $pvFeedInVar = $this->ReadPropertyFloat('PVFeedInVariable');
+        if ($pvFeedInVar > 0) {
+            $data['pv_einspeisung'] = GetValueFloat($pvFeedInVar) . ' kWh';
+        }
+        $gridVar = $this->ReadPropertyFloat('GridConsumptionVariable');
+        if ($gridVar > 0) {
+            $data['bezug_netz'] = GetValueFloat($gridVar) . ' kWh';
+        }
+        $batteryVar = $this->ReadPropertyFloat('BatteryConsumptionVariable');
+        if ($batteryVar > 0) {
+            $data['bezug_akku'] = GetValueFloat($batteryVar) . ' kWh';
         }
         $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
         if ($batterySocVar > 0) {
@@ -104,7 +116,7 @@ class EnergyMonitorGraphic extends IPSModule
             $customCSS .= '#eAuto { display: block !important; }';
         }
         if ($heatingVar > 0) {
-            $customCSS .= '#heizung { display: block !important; }';
+            $customCSS .= '#Heizung { display: block !important; }';
         }
         $customCSS .= '</style>';
 

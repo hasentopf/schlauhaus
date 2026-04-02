@@ -2,6 +2,26 @@
   "elements": [
     {
       "type": "SelectVariable",
+      "caption": "PV-Erzeugung",
+      "name": "PVGenerationVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "PV-Einspeisung",
+      "name": "PVFeedInVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Netz-Bezug",
+      "name": "GridConsumptionVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Akku-Bezug",
+      "name": "BatteryConsumptionVariable"
+    },
+    {
+      "type": "SelectVariable",
       "caption": "Außentemperatur",
       "name": "TemperatureVariable"
     },
