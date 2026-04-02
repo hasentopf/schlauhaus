@@ -103,7 +103,7 @@ class EnergyMonitorGraphic extends IPSModule
         $module = file_get_contents(__DIR__ . '/module.html');
 
         // Check if battery and eCar variables are configured
-        $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
+        $batterySocVar = $this->ReadPropertyFloat('BatterySocVariable');
         $eCarVar = $this->ReadPropertyFloat('eCarConsumptionVariable');
         $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
 
