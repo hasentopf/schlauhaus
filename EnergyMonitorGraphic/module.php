@@ -15,7 +15,7 @@ class EnergyMonitorGraphic extends IPSModule
     {
         parent::Create();
 
-        $this->RegisterPropertyInteger('BatterySocVariable', 0);
+        $this->RegisterPropertyFloat('BatterySocVariable', 0);
         $this->RegisterPropertyFloat('TemperatureVariable', 0);
         $this->RegisterPropertyFloat('eCarConsumptionVariable', 0);
         $this->RegisterPropertyFloat('HeatingConsumptionVariable', 0);
@@ -75,9 +75,9 @@ class EnergyMonitorGraphic extends IPSModule
         if ($batteryVar > 0) {
             $data['bezug_akku'] = GetValueFloat($batteryVar) . ' kWh';
         }
-        $batterySocVar = $this->ReadPropertyInteger('BatterySocVariable');
+        $batterySocVar = $this->ReadPropertyFloat('BatterySocVariable');
         if ($batterySocVar > 0) {
-            $data['akku_stand'] = GetValueInteger($batterySocVar) . '%';
+            $data['akku_stand'] = GetValueFloat($batterySocVar) . '%';
         }
         $eCarVar = $this->ReadPropertyFloat('eCarConsumptionVariable');
         if ($eCarVar > 0) {
