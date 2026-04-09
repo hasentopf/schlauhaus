@@ -23,6 +23,7 @@ class EnergyMonitorGraphic extends IPSModule
         $this->RegisterPropertyFloat('PVFeedInVariable', 0);
         $this->RegisterPropertyFloat('BatteryConsumptionVariable', 0);
         $this->RegisterPropertyFloat('GridConsumptionVariable', 0);
+        $this->RegisterPropertyFloat('PvConsumptionVariable', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
 
         $this->SetVisualizationType(1);
@@ -47,6 +48,15 @@ class EnergyMonitorGraphic extends IPSModule
 
     }
 
+    private function CalcConsumption($values)
+    {
+        $consumption = 0;
+        foreach ($values as $value) {
+            $consumption += $value['Avg'];
+        }
+        return round($consumption, self::ROUND_DECIMALS);
+    }
+
     private function generateJS()
     {
         return $this->GenerateData();
@@ -54,26 +64,38 @@ class EnergyMonitorGraphic extends IPSModule
 
     public function GenerateData()
     {
+        $instances = IPS_GetInstanceListByModuleID('{43192F0B-135B-4CE7-A0A7-1475603F3060}');
+        $archiveID = $instances[0];
+
         $data = [];
-        $temperatureVar = $this->ReadPropertyFloat('TemperatureVariable');
-        if ($temperatureVar > 0) {
-            $data['temperatur'] = round(GetValueFloat($temperatureVar), self::ROUND_FLOATS) . '°C';
-        }
-        $pvGenVar = $this->ReadPropertyFloat('PVGenerationVariable');
-        if ($pvGenVar > 0) {
-            $data['pv_erzeugung'] = GetValueFloat($pvGenVar) . ' kWh';
-        }
         $pvFeedInVar = $this->ReadPropertyFloat('PVFeedInVariable');
         if ($pvFeedInVar > 0) {
             $data['pv_einspeisung'] = GetValueFloat($pvFeedInVar) . ' kWh';
         }
+
+        $pvVar = $this->ReadPropertyFloat('PvConsumptionVariable');
+        if ($pvVar > 0) {
+            $pvVarValue = AC_GetAggregatedValues($archiveID, $pvVar, 1, strtotime('today'), time(), 0);
+            $data['bezug_pv'] = $this->CalcConsumption($pvVarValue) . ' kWh';
+        }
         $gridVar = $this->ReadPropertyFloat('GridConsumptionVariable');
         if ($gridVar > 0) {
-            $data['bezug_netz'] = GetValueFloat($gridVar) . ' kWh';
+            $gridVarValue = AC_GetAggregatedValues($archiveID, $gridVar, 1, strtotime('today'), time(), 0);
+            $data['bezug_netz'] = $this->CalcConsumption($gridVarValue) . ' kWh';
         }
         $batteryVar = $this->ReadPropertyFloat('BatteryConsumptionVariable');
         if ($batteryVar > 0) {
-            $data['bezug_akku'] = GetValueFloat($batteryVar) . ' kWh';
+            $batteryVarValue = AC_GetAggregatedValues($archiveID, $batteryVar, 1, strtotime('today'), time(), 0);
+            $data['bezug_akku'] = $this->CalcConsumption($batteryVarValue) . ' kWh';
+        }
+
+        $pvGenVar = $this->ReadPropertyFloat('PVGenerationVariable');
+        if ($pvGenVar > 0) {
+            $data['pv_erzeugung'] = round(GetValueFloat($pvGenVar), self::ROUND_FLOATS) . ' kWh';
+        }
+        $temperatureVar = $this->ReadPropertyFloat('TemperatureVariable');
+        if ($temperatureVar > 0) {
+            $data['temperatur'] = round(GetValueFloat($temperatureVar), self::ROUND_FLOATS) . '°C';
         }
         $batterySocVar = $this->ReadPropertyFloat('BatterySocVariable');
         if ($batterySocVar > 0) {
@@ -81,11 +103,11 @@ class EnergyMonitorGraphic extends IPSModule
         }
         $eCarVar = $this->ReadPropertyFloat('eCarConsumptionVariable');
         if ($eCarVar > 0) {
-            $data['verbrauch_eAuto'] = GetValueFloat($eCarVar) . 'kWh';
+            $data['verbrauch_eAuto'] = GetValueFloat($eCarVar) . ' kWh';
         }
         $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
         if ($heatingVar > 0) {
-            $data['verbrauch_heizung'] = GetValueFloat($heatingVar) . 'kWh'; // round(GetValueFloat($heatingVar), self::ROUND_DECIMALS)
+            $data['verbrauch_heizung'] = GetValueFloat($heatingVar) . ' kWh'; // round(GetValueFloat($heatingVar), self::ROUND_DECIMALS)
         }
         return json_encode($data);
     }
@@ -127,8 +149,9 @@ class EnergyMonitorGraphic extends IPSModule
     const elementMap = {
         pv_erzeugung: document.getElementById("pv_erzeugung"),
         pv_einspeisung: document.getElementById("pv_einspeisung"),
-        bezug_netz_heute: document.getElementById("bezug_netz"),
-        bezug_akku_heute: document.getElementById("bezug_akku"),
+        bezug_pv: document.getElementById("bezug_pv"),
+        bezug_netz: document.getElementById("bezug_netz"),
+        bezug_akku: document.getElementById("bezug_akku"),
         temperatur: document.getElementById("temperatur"),
         verbrauch_heizung: document.getElementById("verbrauch_heizung"),
         verbrauch_eAuto: document.getElementById("verbrauch_eAuto"),

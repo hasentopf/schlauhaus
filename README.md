@@ -62,7 +62,12 @@ Volumes:
     Container: /var/log/symcon Host: /home/rasp_user/symcon/log  Bind
     Container: /root                  Host: /home/rasp_user/symcon/license      Bind
 
-TZ: Europe/Berlin
+Env:
+TZ Europe/Berlin
+
+Restart policy:
+always
+
 
 ## Backup
     mkdir ~/bin

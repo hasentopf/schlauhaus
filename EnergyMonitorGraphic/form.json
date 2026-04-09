@@ -1,24 +1,37 @@
 {
   "elements": [
     {
+      "type": "Archiv-IDs",
+      "caption": " "
+    },
+    {
       "type": "SelectVariable",
-      "caption": "PV-Erzeugung",
+      "caption": "Verbrauch aus Netz (Archiv-ID)",
+      "name": "GridConsumptionVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Verbrauch aus Akku (Archiv-ID)",
+      "name": "BatteryConsumptionVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Verbrauch aus PV (Archiv-ID)",
+      "name": "PvConsumptionVariable"
+    },
+    {
+      "type": "Werte-IDs",
+      "caption": " "
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "PV-Erzeugung (Daily yield)",
       "name": "PVGenerationVariable"
     },
     {
       "type": "SelectVariable",
       "caption": "PV-Einspeisung",
       "name": "PVFeedInVariable"
-    },
-    {
-      "type": "SelectVariable",
-      "caption": "Netz-Bezug",
-      "name": "GridConsumptionVariable"
-    },
-    {
-      "type": "SelectVariable",
-      "caption": "Akku-Bezug",
-      "name": "BatteryConsumptionVariable"
     },
     {
       "type": "SelectVariable",
