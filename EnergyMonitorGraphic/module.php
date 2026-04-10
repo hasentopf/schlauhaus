@@ -120,6 +120,9 @@ class EnergyMonitorGraphic extends IPSModule
         ];
     }
 
+    /**
+     * @return string
+     */
     public function GetVisualizationTile()
     {
         $module = file_get_contents(__DIR__ . '/module.html');
@@ -171,13 +174,14 @@ class EnergyMonitorGraphic extends IPSModule
     }
 
     function reloadData() {
+//        console.log("reloadData");
         IPS_RunScriptChannel({ "DataID": "{3708, ' . $this->InstanceID . ', GenerateData}", "Callback": "handleMessage" });
     }
 
     window.onload = function () {
         handleMessage(' . json_encode($this->generateJS()) . ');
         reloadData();
-        setInterval(reloadData, 60000);
+        setInterval(reloadData, 300000);
     }
 </script>';
         return $module . $script;
