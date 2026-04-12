@@ -67,7 +67,7 @@ foreach ($consumption_values as $v) {
 
 $html = '<table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%; text-align: left;">';
 $html2 = '<br><table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%; text-align: left;">';
-$html .= '<tr><th>Hausverbrauch</th><th>Gestern</th><th>Heute</th></tr>';
+$html .= '<tr><th>Hausverbrauch aus</th><th>Gestern</th><th>Heute</th></tr>';
 $html2 .= '<tr><th>PV-Ertrag</th><th>Gestern</th><th>Heute</th></tr>';
 foreach ($consumption_values as $v) {
     if($v['type'] == 'verbrauch') {

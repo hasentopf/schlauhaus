@@ -70,7 +70,8 @@ class EnergyMonitorGraphic extends IPSModule
         $data = [];
         $pvFeedInVar = $this->ReadPropertyFloat('PVFeedInVariable');
         if ($pvFeedInVar > 0) {
-            $data['pv_einspeisung'] = GetValueFloat($pvFeedInVar) . ' kWh';
+            $pvVarValue = AC_GetAggregatedValues($archiveID, $pvFeedInVar, 1, strtotime('today'), time(), 0);
+            $data['pv_einspeisung'] = $this->CalcConsumption($pvVarValue) . ' kWh';
         }
 
         $pvVar = $this->ReadPropertyFloat('PvConsumptionVariable');
