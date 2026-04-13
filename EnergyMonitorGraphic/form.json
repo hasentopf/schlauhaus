@@ -20,13 +20,13 @@
       "name": "PvConsumptionVariable"
     },
     {
-      "type": "Label",
-      "caption": "Werte-IDs"
+      "type": "SelectVariable",
+      "caption": "PV-Erzeugung (Archiv-ID)",
+      "name": "PVGenerationVariable"
     },
     {
-      "type": "SelectVariable",
-      "caption": "PV-Erzeugung (Daily yield)",
-      "name": "PVGenerationVariable"
+      "type": "Label",
+      "caption": "Werte-IDs"
     },
     {
       "type": "SelectVariable",

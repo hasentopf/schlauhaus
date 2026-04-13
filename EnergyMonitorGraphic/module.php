@@ -73,7 +73,11 @@ class EnergyMonitorGraphic extends IPSModule
             $pvVarValue = AC_GetAggregatedValues($archiveID, $pvFeedInVar, 1, strtotime('today'), time(), 0);
             $data['pv_einspeisung'] = $this->CalcConsumption($pvVarValue) . ' kWh';
         }
-
+        $pvGenVar = $this->ReadPropertyFloat('PVGenerationVariable');
+        if ($pvGenVar > 0) {
+            $pvGenValue = AC_GetAggregatedValues($archiveID, $pvGenVar, 1, strtotime('today'), time(), 0);
+            $data['pv_erzeugung'] = $this->CalcConsumption($pvGenValue) . ' kWh';
+        }
         $pvVar = $this->ReadPropertyFloat('PvConsumptionVariable');
         if ($pvVar > 0) {
             $pvVarValue = AC_GetAggregatedValues($archiveID, $pvVar, 1, strtotime('today'), time(), 0);
@@ -90,10 +94,6 @@ class EnergyMonitorGraphic extends IPSModule
             $data['bezug_akku'] = $this->CalcConsumption($batteryVarValue) . ' kWh';
         }
 
-        $pvGenVar = $this->ReadPropertyFloat('PVGenerationVariable');
-        if ($pvGenVar > 0) {
-            $data['pv_erzeugung'] = round(GetValueFloat($pvGenVar), self::ROUND_FLOATS) . ' kWh';
-        }
         $temperatureVar = $this->ReadPropertyFloat('TemperatureVariable');
         if ($temperatureVar > 0) {
             $data['temperatur'] = round(GetValueFloat($temperatureVar), self::ROUND_FLOATS) . '°C';

@@ -31,7 +31,8 @@ $consumption_values = [
     ['id' => 21776, 'type' => 'verbrauch', 'name' => 'Netz', 'alt' => 'Total home consumption Grid', 'yesterday' => 35385, 'today' => 49614],       // Hausverbrauch (Netz)
     ['id' => 52543, 'type' => 'verbrauch', 'name' => 'Batterie', 'alt' => 'Total home consumption Battery', 'yesterday' => 11143, 'today' => 43577],   // Hausverbrauch (Batterie)
     ['id' => 40619, 'type' => 'verbrauch', 'name' => 'PV', 'alt' => 'Total home consumption PV', 'yesterday' => 44148, 'today' => 58837],         // Hausverbrauch (PV)
-    ['id' => 45595, 'type' => 'gesamt', 'name' => 'Gesamt', 'alt' => 'Total home consumption'],         // Hausverbrauch (Geasmt)
+    ['id' => 45595, 'type' => 'gesamt', 'name' => 'Gesamt', 'alt' => 'Total home consumption'],         // Hausverbrauch (Gesamt)
+    ['id' => 30835, 'type' => 'gesamt', 'name' => 'Tagesertrag', 'alt' => 'Daily yield'],  // Tagesertrag (Daily yield)
     ['id' => 40734, 'type' => 'ertrag', 'name' => 'Gesamtertrag', 'alt' => 'Total DC PV energy (sum of all PV inputs)', 'yesterday' => 36854, 'today' => 53459],  // PV Ertrag (Total DC PV energy (sum of all PV inputs))
     ['id' => 28007, 'type' => 'ertrag', 'name' => 'Einspeisung', 'alt' => 'Total energy AC-side to grid', 'yesterday' => 13395, 'today' => 23642]    // Einspeisung (Total energy AC-side to grid)
 ];
@@ -54,17 +55,6 @@ foreach ($consumption_values as $v) {
     }
 }
 
-$totalYesterday = 0;
-$totalToday = 0;
-foreach ($consumption_values as $v) {
-    if($v['type'] == 'gesamt') {
-        $data = AC_GetAggregatedValues($archiveID, $v['id'], 1, strtotime('today'), time(), 0);
-        $totalToday = CalcConsumption($data);
-        $data = AC_GetAggregatedValues($archiveID, $v['id'], 1, strtotime('yesterday'), strtotime('today') - 1, 0);
-        $totalYesterday = CalcConsumption($data);
-    }
-}
-
 $html = '<table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%; text-align: left;">';
 $html2 = '<br><table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%; text-align: left;">';
 $html .= '<tr><th>Hausverbrauch aus</th><th>Gestern</th><th>Heute</th></tr>';
@@ -82,11 +72,15 @@ foreach ($consumption_values as $v) {
         $html2 .= '<td>' . GetValueFloat($v['yesterday']) . ' kWh</td>';
         $html2 .= '<td>' . GetValueFloat($v['today']) . ' kWh</td>';
         $html2 .= '</tr>';
+    } else if($v['type'] == 'gesamt') {
+        $totalTodayData = AC_GetAggregatedValues($archiveID, $v['id'], 1, strtotime('today'), time(), 0);
+        $totalToday[$v['name']] = CalcConsumption($totalTodayData);
+        $totalYesterdayData = AC_GetAggregatedValues($archiveID, $v['id'], 1, strtotime('yesterday'), strtotime('today') - 1, 0);
+        $html .= '<tr style="font-weight: bold;"><td>' . $v['name'] . '</td><td>' . CalcConsumption($totalYesterdayData) . ' kWh</td><td>' . CalcConsumption($totalTodayData) . ' kWh</td></tr>';
     }
 }
 
-// Total amount
-$html .= '<tr style="font-weight: bold;"><td>Gesamt</td><td>' . $totalYesterday . ' kWh</td><td>' . $totalToday . ' kWh</td></tr></table>';
+$html .= '</table>';
 $html2 .= '</table>';
 
 SetValueString(46524, $html . $html2);
