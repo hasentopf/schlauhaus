@@ -7,36 +7,42 @@
     {
       "type": "SelectVariable",
       "caption": "Verbrauch aus Netz (Archiv-ID)",
-      "name": "GridConsumptionVariable"
+      "name": "GridConsumptionVariable",
+      "description": "Total home consumption Grid = archivierte ID aus dem der Netz-Verbrauch ausgelesen wird"
     },
     {
       "type": "SelectVariable",
       "caption": "Verbrauch aus Akku (Archiv-ID)",
-      "name": "BatteryConsumptionVariable"
+      "name": "BatteryConsumptionVariable",
+      "description": "Total home consumption Battery = archivierte ID aus dem der Akku-Verbrauch ausgelesen wird"
     },
     {
       "type": "SelectVariable",
       "caption": "Verbrauch aus PV (Archiv-ID)",
-      "name": "PvConsumptionVariable"
+      "name": "PvConsumptionVariable",
+      "description": "Total home consumption PV = archivierte ID aus dem der PV-Verbrauch ausgelesen wird"
     },
     {
       "type": "SelectVariable",
       "caption": "PV-Erzeugung (Archiv-ID)",
-      "name": "PVGenerationVariable"
+      "name": "PVGenerationVariable",
+      "description": "Total DC PV energy (sum of all PV inputs) = archivierte ID aus dem die PV-Erzeugung ausgelesen wird"
     },
     {
       "type": "SelectVariable",
       "caption": "Akku laden (Archiv-ID)",
-      "name": "BatteryChargeVariable"
+      "name": "BatteryChargeVariable",
+      "description": "Total DC charge energy (DC-side to battery) = archivierte ID aus dem die Akku-Ladeenergie ausgelesen wird"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Gesamtenergie zum Netz",
+      "name": "PVFeedInVariable",
+      "description": "Total energy AC-side to grid = archivierte ID aus dem die Netz-Einspeisung ausgelesen wird"
     },
     {
       "type": "Label",
       "caption": "Werte-IDs"
-    },
-    {
-      "type": "SelectVariable",
-      "caption": "PV-Einspeisung",
-      "name": "PVFeedInVariable"
     },
     {
       "type": "SelectVariable",
