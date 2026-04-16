@@ -19,6 +19,7 @@ class EnergyMonitorGraphic extends IPSModule
         $this->RegisterPropertyFloat('TemperatureVariable', 0);
         $this->RegisterPropertyFloat('eCarConsumptionVariable', 0);
         $this->RegisterPropertyFloat('HeatingConsumptionVariable', 0);
+        $this->RegisterPropertyFloat('AirConditioningConsumptionVariable', 0);
         $this->RegisterPropertyFloat('PVGenerationVariable', 0);
         $this->RegisterPropertyFloat('PVFeedInVariable', 0);
         $this->RegisterPropertyFloat('BatteryConsumptionVariable', 0);
@@ -114,7 +115,11 @@ class EnergyMonitorGraphic extends IPSModule
         }
         $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
         if ($heatingVar > 0) {
-            $data['verbrauch_heizung'] = GetValueFloat($heatingVar) . ' kWh'; // round(GetValueFloat($heatingVar), self::ROUND_DECIMALS)
+            $data['verbrauch_heizung'] = GetValueFloat($heatingVar) . ' kWh';
+        }
+        $airConVar = $this->ReadPropertyFloat('AirConditioningConsumptionVariable');
+        if ($airConVar > 0) {
+            $data['verbrauch_klimaanlage'] = GetValueFloat($airConVar) . ' kWh'; // round(GetValueFloat($airConVar), self::ROUND_DECIMALS)
         }
         return json_encode($data);
     }
@@ -138,6 +143,7 @@ class EnergyMonitorGraphic extends IPSModule
         $batterySocVar = $this->ReadPropertyFloat('BatterySocVariable');
         $eCarVar = $this->ReadPropertyFloat('eCarConsumptionVariable');
         $heatingVar = $this->ReadPropertyFloat('HeatingConsumptionVariable');
+        $airConVar = $this->ReadPropertyFloat('AirConditioningConsumptionVariable');
 
         // Generate CSS to show/hide SVG elements based on configuration
         $customCSS = '<style>';
@@ -149,6 +155,9 @@ class EnergyMonitorGraphic extends IPSModule
         }
         if ($heatingVar > 0) {
             $customCSS .= '#Heizung { display: block !important; }';
+        }
+        if ($airConVar > 0) {
+            $customCSS .= '#Klimaanlage { display: block !important; }';
         }
         $customCSS .= '</style>';
 
@@ -164,6 +173,7 @@ class EnergyMonitorGraphic extends IPSModule
         bezug_akku: document.getElementById("bezug_akku"),
         temperatur: document.getElementById("temperatur"),
         verbrauch_heizung: document.getElementById("verbrauch_heizung"),
+        verbrauch_klimaanlage: document.getElementById("verbrauch_klimaanlage"),
         verbrauch_eAuto: document.getElementById("verbrauch_eAuto"),
         akku_laden: document.getElementById("akku_laden"),
         akku_stand: document.getElementById("akku_stand")

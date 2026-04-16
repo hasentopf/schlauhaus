@@ -62,13 +62,18 @@
     },
     {
       "type": "SelectVariable",
-      "caption": "eAuto Verbrauch",
+      "caption": "Verbrauch eAuto",
       "name": "eCarConsumptionVariable"
     },
     {
       "type": "SelectVariable",
-      "caption": "Heizungsverbrauch",
+      "caption": "Verbrauch Heizung",
       "name": "HeatingConsumptionVariable"
+    },
+    {
+      "type": "SelectVariable",
+      "caption": "Verbrauch Klimaanlage",
+      "name": "AirConditioningConsumptionVariable"
     }
   ],
   "actions": [
