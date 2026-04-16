@@ -27,6 +27,7 @@ function isShortlyAfterMidnight(DateTimeImmutable $dt, int $seconds = 300): bool
 $instances = IPS_GetInstanceListByModuleID('{43192F0B-135B-4CE7-A0A7-1475603F3060}');
 $archiveID = $instances[0];
 
+// TODO Total DC charge energy (DC-side to battery)
 $consumption_values = [
     ['id' => 21776, 'type' => 'verbrauch', 'name' => 'Netz', 'alt' => 'Total home consumption Grid', 'yesterday' => 35385, 'today' => 49614],       // Hausverbrauch (Netz)
     ['id' => 52543, 'type' => 'verbrauch', 'name' => 'Batterie', 'alt' => 'Total home consumption Battery', 'yesterday' => 11143, 'today' => 43577],   // Hausverbrauch (Batterie)

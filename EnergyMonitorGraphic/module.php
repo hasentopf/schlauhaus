@@ -22,6 +22,7 @@ class EnergyMonitorGraphic extends IPSModule
         $this->RegisterPropertyFloat('PVGenerationVariable', 0);
         $this->RegisterPropertyFloat('PVFeedInVariable', 0);
         $this->RegisterPropertyFloat('BatteryConsumptionVariable', 0);
+        $this->RegisterPropertyFloat('BatteryChargeVariable', 0);
         $this->RegisterPropertyFloat('GridConsumptionVariable', 0);
         $this->RegisterPropertyFloat('PvConsumptionVariable', 0);
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
@@ -93,6 +94,11 @@ class EnergyMonitorGraphic extends IPSModule
             $batteryVarValue = AC_GetAggregatedValues($archiveID, $batteryVar, 1, strtotime('today'), time(), 0);
             $data['bezug_akku'] = $this->CalcConsumption($batteryVarValue) . ' kWh';
         }
+        $batteryVar = $this->ReadPropertyFloat('BatteryChargeVariable');
+        if ($batteryVar > 0) {
+            $batteryVarValue = AC_GetAggregatedValues($archiveID, $batteryVar, 1, strtotime('today'), time(), 0);
+            $data['akku_laden'] = $this->CalcConsumption($batteryVarValue) . ' kWh';
+        }
 
         $temperatureVar = $this->ReadPropertyFloat('TemperatureVariable');
         if ($temperatureVar > 0) {
@@ -159,6 +165,7 @@ class EnergyMonitorGraphic extends IPSModule
         temperatur: document.getElementById("temperatur"),
         verbrauch_heizung: document.getElementById("verbrauch_heizung"),
         verbrauch_eAuto: document.getElementById("verbrauch_eAuto"),
+        akku_laden: document.getElementById("akku_laden"),
         akku_stand: document.getElementById("akku_stand")
     };
 

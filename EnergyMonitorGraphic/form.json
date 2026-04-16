@@ -25,6 +25,11 @@
       "name": "PVGenerationVariable"
     },
     {
+      "type": "SelectVariable",
+      "caption": "Akku laden (Archiv-ID)",
+      "name": "BatteryChargeVariable"
+    },
+    {
       "type": "Label",
       "caption": "Werte-IDs"
     },
