@@ -130,14 +130,3 @@ ExecStart=/home/rasp_local/dht_env/bin/python3
     
     [Install]
     WantedBy=multi-user.target
-
-
-## Unifi Protect Cam Stream
-rtsps://192.168.0.1:7441/zIqTfSvGztc01ykK?enableSrtp
-rtsp://192.168.0.1:7447/zIqTfSvGztc01ykK
-
-streams:
-  keller_cam:
-    - rtspx://192.168.0.1:7441/zIqTfSvGztc01ykK
-
-docker run -d --name go2rtc --network host --privileged --restart unless-stopped -e TZ=Europe/Berlin -v ~/go2rtc:/config alexxit/go2rtc
