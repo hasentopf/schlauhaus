@@ -148,16 +148,16 @@ class EnergyMonitorGraphic extends IPSModule
         // Generate CSS to show/hide SVG elements based on configuration
         $customCSS = '<style>';
         if ($batterySocVar > 0) {
-            $customCSS .= '#Akku { display: block !important; }';
+            $customCSS .= '#Akku { opacity: 1 !important; }';
         }
         if ($eCarVar > 0) {
-            $customCSS .= '#eAuto { display: block !important; }';
+            $customCSS .= '#eAuto { opacity: 1 !important; }';
         }
         if ($heatingVar > 0) {
-            $customCSS .= '#Heizung { display: block !important; }';
+            $customCSS .= '#Heizung { opacity: 1 !important; }';
         }
         if ($airConVar > 0) {
-            $customCSS .= '#Klimaanlage { display: block !important; }';
+            $customCSS .= '#Klimaanlage { opacity: 1 !important; }';
         }
         $customCSS .= '</style>';
 
