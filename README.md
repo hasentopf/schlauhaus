@@ -58,6 +58,7 @@ Ports:
 Network: host
 
 Volumes:
+
     Container: /var/lib/symcon  Host: /home/rasp_user/symcon/data  Bind
     Container: /var/log/symcon Host: /home/rasp_user/symcon/log  Bind
     Container: /root                  Host: /home/rasp_user/symcon/license      Bind
