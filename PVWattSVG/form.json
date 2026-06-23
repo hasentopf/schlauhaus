@@ -12,9 +12,14 @@
       "caption": "Total DC PV Power 2 (optional second PV input)"
     },
     {
+      "type": "SelectVariable",
+      "name": "TotalDCPVPower3",
+      "caption": "Total DC PV Power 3 (optional third PV input)"
+    },
+    {
       "type": "NumberSpinner",
       "name": "MaxPVPower",
-      "caption": "Max PV Power (Nennleistung oder Maximalleistung)"
+      "caption": "Maximalleistung (peak power in Watts (W))"
     },
     {
       "type": "NumberSpinner",

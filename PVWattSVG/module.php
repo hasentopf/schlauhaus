@@ -18,6 +18,7 @@ class PVWattSVG extends IPSModule
 
         $this->RegisterPropertyFloat('TotalDCPVPower',0);
         $this->RegisterPropertyFloat('TotalDCPVPower2', 0);
+        $this->RegisterPropertyFloat('TotalDCPVPower3', 0);
         $this->RegisterPropertyInteger('MaxPVPower', 600);
 //        $this->RegisterAttributeString('CurrentPVPowerSVG', 'Keine Daten');
         $this->RegisterPropertyInteger('IntervalTime', 45);
@@ -40,6 +41,7 @@ class PVWattSVG extends IPSModule
     public function PrintSvg() {
         $pv1_id = $this->ReadPropertyFloat('TotalDCPVPower');
         $pv2_id = $this->ReadPropertyFloat('TotalDCPVPower2');
+        $pv3_id = $this->ReadPropertyFloat('TotalDCPVPower3');
 
         if ($pv1_id > 0 || $pv2_id > 0) {
             $total_pv_raw = 0;
@@ -48,6 +50,9 @@ class PVWattSVG extends IPSModule
             }
             if ($pv2_id > 0) {
                 $total_pv_raw += GetValueFloat($pv2_id);
+            }
+            if ($pv3_id > 0) {
+                $total_pv_raw += GetValueFloat($pv3_id);
             }
 
             $current_pv = round($total_pv_raw * 1000);
@@ -75,7 +80,7 @@ class PVWattSVG extends IPSModule
      * @return void
      */
     public function UpdateSvgTimer() {
-        if ($this->ReadPropertyFloat('TotalDCPVPower') > 0 || $this->ReadPropertyFloat('TotalDCPVPower2') > 0) {
+        if ($this->ReadPropertyFloat('TotalDCPVPower') > 0 || $this->ReadPropertyFloat('TotalDCPVPower2') > 0 || $this->ReadPropertyFloat('TotalDCPVPower3') > 0) {
             $this->SetTimerInterval('UpdateSvg', $this->GetIntervalTime());
             $this->UpdateVisualizationValue($this->PrintSvg());
         } else {
